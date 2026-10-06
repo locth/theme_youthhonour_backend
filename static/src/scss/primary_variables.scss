@@ -1,7 +1,7 @@
 // ============================================================================
-// Ghi đè biến Odoo/Bootstrap. File này được nạp SAU colors_light.scss của
-// muk_web_colors (bản tùy biến trong DB), và TRƯỚC web/primary_variables.scss.
-// Vì vậy ở đây là phép gán thường (không có !default) để thắng MuK.
+// Ghi đè biến Odoo/Bootstrap. File này được nạp TRƯỚC web/primary_variables.scss
+// nên các giá trị `!default` của Odoo nhường lại. Dùng phép gán thường (không có
+// !default) để vẫn thắng nếu có module khác `prepend` biến màu vào bundle.
 // ============================================================================
 
 // --- Màu thương hiệu ------------------------------------------------------------
@@ -47,3 +47,7 @@ $o-navbar-entry-bg--active: $yh-blue-tint;
 $o-navbar-brand-color: $yh-ink;
 $o-navbar-badge-color: $yh-orange-on;
 $o-navbar-badge-text-shadow: none;
+
+// --- Form: giữ độ rộng như khi còn muk_web_chatter (mặc định Odoo 1534px) --------
+$o-form-renderer-max-width: 3840px;
+$o-form-view-sheet-max-width: 2560px;

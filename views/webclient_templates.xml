@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Favicon ĐHQG-HCM cho mọi trang dùng web.layout (thay cho res.company.favicon của muk_web_theme).
+         Dùng <record model="ir.ui.view"> thay vì <template>: module tên "theme_*" khiến <template>
+         bị tạo thành theme.ir.ui.view (chỉ có khi cài website). -->
+    <record id="layout_favicon" model="ir.ui.view">
+        <field name="name">YouthHonour: favicon</field>
+        <field name="type">qweb</field>
+        <field name="inherit_id" ref="web.layout"/>
+        <field name="arch" type="xml">
+            <xpath expr="//link[@rel='shortcut icon']" position="before">
+                <t t-set="x_icon" t-value="x_icon or '/theme_youthhonour_backend/static/src/img/favicon.png'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

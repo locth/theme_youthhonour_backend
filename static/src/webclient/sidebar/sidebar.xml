@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="theme_youthhonour_backend.Sidebar">
+        <nav class="yh_sidebar d-print-none" aria-label="Ứng dụng">
+            <div class="yh_sidebar_inner">
+                <div class="yh_sidebar_label">Ứng dụng</div>
+                <ul class="yh_sidebar_menu" role="menu">
+                    <li t-foreach="apps" t-as="app" t-key="app.id"
+                        class="yh_sidebar_item" t-att-class="{ active: app.id === currentAppId }" role="none">
+                        <a class="yh_sidebar_link" role="menuitem"
+                            t-att-href="app.href"
+                            t-att-title="app.label"
+                            t-att-data-menu-xmlid="app.xmlid"
+                            t-att-aria-current="app.id === currentAppId ? 'page' : undefined"
+                            t-on-click.prevent="() => this.onAppClick(app)">
+                            <img class="yh_sidebar_icon" t-att-src="app.webIconData" alt=""/>
+                            <span class="yh_sidebar_name" t-esc="app.label"/>
+                        </a>
+                    </li>
+                </ul>
+                <div class="yh_sidebar_logo">
+                    <img src="/theme_youthhonour_backend/static/src/img/sidebar_logo.png"
+                        alt="ĐHQG-HCM · Đoàn TNCS Hồ Chí Minh"/>
+                </div>
+            </div>
+        </nav>
+    </t>
+
+</templates>

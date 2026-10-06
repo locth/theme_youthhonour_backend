@@ -2,7 +2,7 @@
 // Navbar trắng (README §4 "Navbar")
 // ============================================================================
 
-// muk_web_theme ẩn viền dưới bằng `border-bottom: none !important`
+// Viền dưới navbar (muk_web_theme cũ từng ẩn bằng `border-bottom: none !important`)
 .o_web_client .o_main_navbar {
     border-bottom: 1px solid $yh-border !important;
 }

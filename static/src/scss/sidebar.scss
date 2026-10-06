@@ -1,127 +1,188 @@
 // ============================================================================
-// Sidebar bên trái — render bởi muk_web_appsbar (template muk_web_appsbar.AppsBar)
-// .mk_apps_sidebar_panel > .mk_apps_sidebar > ul.mk_apps_sidebar_menu > li.nav-item[.active] > a.nav-link
+// Sidebar danh sách ứng dụng (component YhSidebar, static/src/webclient/sidebar)
+// và bố cục grid của webclient: banner / navbar / sidebar + nội dung.
 // ============================================================================
 
-@include media-breakpoint-up(lg) {
-    .mk_sidebar_type_large {
-        --mk-sidebar-width: 232px;
+.o_web_client {
+    --yh-sidebar-width: 232px;
+
+    display: grid !important;
+    grid-template-areas:
+        "banner banner"
+        "navbar navbar"
+        "sidebar content"
+        "components components";
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: auto 1fr;
+
+    > div:has(#oe_neutralize_banner) {
+        grid-area: banner;
+    }
+
+    > .o_navbar {
+        grid-area: navbar;
+    }
+
+    > .yh_sidebar {
+        grid-area: sidebar;
+    }
+
+    > .o_action_manager {
+        grid-area: content;
+        min-width: 0;
+    }
+
+    > .o-main-components-container {
+        grid-area: components;
+    }
+
+    > iframe {
+        grid-column: 1 / -1;
+        width: 100%;
     }
 }
 
-.mk_apps_sidebar_panel {
+// md: chỉ còn icon; < md: ẩn (dùng menu burger của Odoo); fullscreen/in: ẩn
+@include media-breakpoint-only(md) {
+    .o_web_client {
+        --yh-sidebar-width: 84px;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .o_web_client {
+        --yh-sidebar-width: 0px;
+    }
+}
+
+.o_web_client.o_fullscreen,
+.o_web_client.editor_has_snippets_hide_backend_navbar {
+    --yh-sidebar-width: 0px;
+}
+
+.yh_sidebar {
+    width: var(--yh-sidebar-width);
+    overflow-x: hidden;
+    overflow-y: auto;
     background-color: $yh-surface;
     border-right: 1px solid $yh-border;
+    scrollbar-width: none;
 
-    .mk_apps_sidebar {
-        padding: 20px 14px;
-        gap: 24px;
-
-        .mk_apps_sidebar_menu {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-
-            // Nhãn "ỨNG DỤNG"
-            &::before {
-                content: "Ứng dụng";
-                display: block;
-                padding: 4px 12px 10px;
-                color: $yh-muted-2;
-                font-size: 11.5px;
-                font-weight: 700;
-                letter-spacing: .08em;
-                text-transform: uppercase;
-            }
-
-            > li > a {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                min-height: $yh-tap;
-                padding: 0 14px;
-                border-radius: $yh-radius-ctl;
-                color: $yh-text-2;
-                font-size: 14px;
-                font-weight: 500;
-                transition: background-color .15s, color .15s, box-shadow .15s;
-
-                .mk_apps_sidebar_icon {
-                    flex: none;
-                    width: 20px;
-                    height: 20px;
-                    margin-right: 0;
-                    object-fit: contain;
-                }
-
-                .mk_apps_sidebar_name {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
-            }
-
-            > li:hover > a {
-                background: $yh-blue-tint;
-                color: $yh-blue-ink;
-            }
-
-            // Mục đang chọn: pill xanh, chữ trắng, glow
-            > li.active > a,
-            > li.active:hover > a {
-                background: $yh-blue;
-                color: #FFFFFF;
-                font-weight: 600;
-                box-shadow: yh-glow-blue();
-
-                // icon PNG nhiều màu -> trắng để đọc được trên nền xanh
-                .mk_apps_sidebar_icon {
-                    filter: brightness(0) invert(1);
-                }
-            }
-        }
-
-        // Logo ĐHQG + Đoàn (ảnh appbar_image của công ty) trong khối nền xám nhạt
-        .mk_apps_sidebar_logo {
-            padding: 12px !important;
-            border-radius: 14px;
-            background: $yh-bg;
-
-            img {
-                max-height: 96px;
-                object-fit: contain;
-            }
-        }
-    }
-}
-
-// Sidebar dạng nhỏ (chỉ icon) — MuK dùng ở breakpoint md hoặc khi user chọn "small"
-.mk_sidebar_type_small .mk_apps_sidebar_panel .mk_apps_sidebar,
-.mk_sidebar_type_large .mk_apps_sidebar_panel .mk_apps_sidebar {
-    @include media-breakpoint-only(md) {
-        padding: 16px 10px;
-
-        .mk_apps_sidebar_menu::before {
-            display: none;
-        }
-
-        .mk_apps_sidebar_menu > li > a {
-            justify-content: center;
-            padding: 0;
-        }
-    }
-}
-
-.mk_sidebar_type_small .mk_apps_sidebar_panel .mk_apps_sidebar {
-    padding: 16px 10px;
-
-    .mk_apps_sidebar_menu::before {
+    &::-webkit-scrollbar {
         display: none;
     }
 
-    .mk_apps_sidebar_menu > li > a {
+    .o_fullscreen & {
+        display: none;
+    }
+
+    @include media-breakpoint-down(md) {
+        display: none;
+    }
+}
+
+.yh_sidebar_inner {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 20px 14px;
+}
+
+.yh_sidebar_label {
+    padding: 4px 12px 10px;
+    color: $yh-muted-2;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.yh_sidebar_menu {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.yh_sidebar_link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: $yh-tap;
+    padding: 0 14px;
+    border-radius: $yh-radius-ctl;
+    color: $yh-text-2;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .15s, color .15s, box-shadow .15s;
+
+    &:hover,
+    &:focus-visible {
+        background: $yh-blue-tint;
+        color: $yh-blue-ink;
+    }
+}
+
+.yh_sidebar_icon {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.yh_sidebar_name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// Mục đang chọn: pill xanh, chữ trắng, glow
+.yh_sidebar_item.active > .yh_sidebar_link {
+    background: $yh-blue;
+    color: #FFFFFF;
+    font-weight: 600;
+    box-shadow: yh-glow-blue();
+
+    // icon PNG nhiều màu -> trắng để đọc được trên nền xanh
+    .yh_sidebar_icon {
+        filter: brightness(0) invert(1);
+    }
+}
+
+// Logo ĐHQG + Đoàn ở đáy, trong khối nền xám nhạt
+.yh_sidebar_logo {
+    margin-top: 24px;
+    padding: 12px;
+    border-radius: 14px;
+    background: $yh-bg;
+
+    img {
+        display: block;
+        width: 100%;
+        max-height: 96px;
+        object-fit: contain;
+    }
+}
+
+// Dạng chỉ có icon (md)
+@include media-breakpoint-only(md) {
+    .yh_sidebar_inner {
+        padding: 16px 10px;
+    }
+
+    .yh_sidebar_label,
+    .yh_sidebar_name,
+    .yh_sidebar_logo {
+        display: none;
+    }
+
+    .yh_sidebar_link {
         justify-content: center;
         padding: 0;
     }
