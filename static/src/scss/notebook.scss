@@ -58,17 +58,16 @@
 // --- Tab có màu và ô icon theo nhóm tiêu chí (SV5T, CBTTB) ----------------------
 // Các <page> không có `name` nên phải theo thứ tự. Chỉ áp cho form hồ sơ SV5T/CBTTB
 // (nhận diện bằng field standouts_ok luôn có trên form; CBTTB có thêm staff_contract).
-@mixin yh-tab($n, $color, $on, $tint, $ink, $glyph) {
+@mixin yh-tab($n, $color, $on, $tint, $ink, $icon) {
     .nav-item:nth-child(#{$n}) .nav-link {
         --yh-tab-color: #{$color};
 
         &::before {
-            @include yh-icon-tile(26px, 8px, $tint, $ink, $glyph, 13px);
+            @include yh-svg-tile(26px, 8px, $tint, $ink, $icon, 14px, 2.2);
         }
 
         &.active::before {
-            background: $color;
-            color: $on;
+            background: $color yh-svg($icon, $on, 2.2) center / 14px no-repeat;
             box-shadow: 0 0 12px rgba($color, yh-a(.9));
         }
     }
@@ -78,22 +77,22 @@ $-yh-sv5t-form: ".o_form_view:has(.o_field_widget[name='standouts_ok']):not(:has
 $-yh-cbttb-form: ".o_form_view:has(.o_field_widget[name='standouts_ok']):has(.o_field_widget[name='staff_contract'])";
 
 #{$-yh-sv5t-form} .o_notebook > .o_notebook_headers {
-    @include yh-tab(1, $yh-blue, #FFFFFF, $yh-blue-tint, $yh-blue-ink, "\f132");       // Đạo đức — fa-shield
-    @include yh-tab(2, $yh-orange, $yh-orange-on, $yh-orange-tint, $yh-orange-ink, "\f02d"); // Học tập — fa-book
-    @include yh-tab(3, $yh-green, #FFFFFF, $yh-green-tint, $yh-green-ink, "\f21e");    // Thể lực — fa-heartbeat
-    @include yh-tab(4, $yh-red, #FFFFFF, $yh-red-tint, $yh-red-ink, "\f004");          // Tình nguyện — fa-heart
-    @include yh-tab(5, $yh-blue, #FFFFFF, $yh-blue-tint, $yh-blue-ink, "\f0ac");       // Hội nhập — fa-globe
-    @include yh-tab(6, $yh-orange, $yh-orange-on, $yh-orange-tint, $yh-orange-ink, "\f005"); // Tiêu biểu — fa-star
+    @include yh-tab(1, $yh-blue, #FFFFFF, $yh-blue-tint, $yh-blue-ink, "shield-check");       // Đạo đức
+    @include yh-tab(2, $yh-orange, $yh-orange-on, $yh-orange-tint, $yh-orange-ink, "book"); // Học tập
+    @include yh-tab(3, $yh-green, #FFFFFF, $yh-green-tint, $yh-green-ink, "activity");    // Thể lực
+    @include yh-tab(4, $yh-red, #FFFFFF, $yh-red-tint, $yh-red-ink, "heart");          // Tình nguyện
+    @include yh-tab(5, $yh-blue, #FFFFFF, $yh-blue-tint, $yh-blue-ink, "globe");       // Hội nhập
+    @include yh-tab(6, $yh-orange, $yh-orange-on, $yh-orange-tint, $yh-orange-ink, "star"); // Tiêu biểu
 }
 
 // CBTTB: 3 tab "Tiêu chuẩn cụ thể" ẩn/hiện theo nominee_type nhưng tab ẩn không được render,
 // nên luôn có 5 tab: Đạo đức, Chuyên môn, Cống hiến, Tiêu chuẩn cụ thể, Xét Điển hình.
 #{$-yh-cbttb-form} .o_notebook > .o_notebook_headers {
-    @include yh-tab(1, $yh-blue, #FFFFFF, $yh-blue-tint, $yh-blue-ink, "\f132");       // Đạo đức — fa-shield
-    @include yh-tab(2, $yh-orange, $yh-orange-on, $yh-orange-tint, $yh-orange-ink, "\f0b1"); // Chuyên môn — fa-briefcase
-    @include yh-tab(3, $yh-green, #FFFFFF, $yh-green-tint, $yh-green-ink, "\f2b5");    // Cống hiến — fa-handshake-o
-    @include yh-tab(4, $yh-red, #FFFFFF, $yh-red-tint, $yh-red-ink, "\f022");          // Tiêu chuẩn cụ thể — fa-list-alt
-    @include yh-tab(5, $yh-orange, $yh-orange-on, $yh-orange-tint, $yh-orange-ink, "\f005"); // Điển hình — fa-star
+    @include yh-tab(1, $yh-blue, #FFFFFF, $yh-blue-tint, $yh-blue-ink, "shield-check");       // Đạo đức
+    @include yh-tab(2, $yh-orange, $yh-orange-on, $yh-orange-tint, $yh-orange-ink, "briefcase"); // Chuyên môn
+    @include yh-tab(3, $yh-green, #FFFFFF, $yh-green-tint, $yh-green-ink, "handshake");    // Cống hiến
+    @include yh-tab(4, $yh-red, #FFFFFF, $yh-red-tint, $yh-red-ink, "clipboard-list");          // Tiêu chuẩn cụ thể
+    @include yh-tab(5, $yh-orange, $yh-orange-on, $yh-orange-tint, $yh-orange-ink, "star"); // Điển hình
 }
 
 // --- One2many trong form ----------------------------------------------------------
@@ -120,8 +119,8 @@ $-yh-cbttb-form: ".o_form_view:has(.o_field_widget[name='standouts_ok']):has(.o_
         font-weight: 700;
 
         &::before {
-            content: "\f067"; // fa-plus
-            font: normal normal normal 13px/1 FontAwesome;
+            content: "";
+            @include yh-mask("plus", 16px, 2.4);
         }
     }
 

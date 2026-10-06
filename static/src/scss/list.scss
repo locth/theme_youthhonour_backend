@@ -115,11 +115,19 @@
     }
 
     .o_group_caret {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         width: 20px;
         color: $yh-muted-2;
-        // fa-caret-* -> chevron nét mảnh hơn
-        &.fa-caret-right::before { content: "\f054"; font-size: 11px; }
-        &.fa-caret-down::before { content: "\f078"; font-size: 11px; }
+
+        // fa-caret-* -> chevron SVG nét mảnh
+        &.fa-caret-right {
+            @include yh-replace-glyph("chevron-right", 16px);
+        }
+        &.fa-caret-down {
+            @include yh-replace-glyph("chevron-down", 16px);
+        }
     }
 
     &.o_group_open .o_group_name {
@@ -130,5 +138,10 @@
 @include media-breakpoint-down(md) {
     .o_view_controller.o_list_view > .o_content {
         padding: 0 16px 24px;
+
+        // màn hẹp: giữ bảng đủ rộng để đọc được, cuộn ngang trong thẻ
+        > .o_list_renderer > .o_list_table {
+            min-width: 960px;
+        }
     }
 }

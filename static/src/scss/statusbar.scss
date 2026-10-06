@@ -80,8 +80,6 @@ $-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28p
             border-radius: 999px !important;
             background: $yh-surface;
             clip-path: none;
-            color: #FFFFFF;
-            font: normal normal normal 13px/1 FontAwesome;
         }
 
         // vạch nối 2px tới bước kế tiếp (nằm bên phải)
@@ -124,9 +122,8 @@ $-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28p
         color: $yh-text-2 !important;
 
         &::before {
-            content: "\f00c"; // fa-check
             border-color: $yh-green;
-            background: $yh-green;
+            background: $yh-green yh-svg("check", #FFFFFF, 3) center / 14px no-repeat;
         }
 
         &::after {
@@ -149,10 +146,8 @@ $-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28p
         box-shadow: yh-glow-blue();
 
         &::before {
-            content: "\f005"; // fa-star
             border: 0;
-            background: #FFFFFF;
-            color: $yh-blue;
+            background: #FFFFFF yh-svg("star", $yh-blue, 2.6) center / 14px no-repeat;
         }
 
         &::after {
@@ -169,12 +164,9 @@ $-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28p
         font-size: 13px;
 
         &::before {
-            content: "\f00d"; // fa-times
-            width: auto;
-            height: auto;
             border: 0;
-            background: transparent;
-            color: $yh-red-ink;
+            border-radius: 0 !important;
+            @include yh-mask("x", 14px, 2.6);
         }
 
         &.o_arrow_button_current {
@@ -183,9 +175,6 @@ $-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28p
             color: #FFFFFF !important;
             box-shadow: 0 10px 24px -8px rgba(220, 38, 38, yh-a(.9)), 0 0 0 4px rgba(220, 38, 38, yh-a(.14));
 
-            &::before {
-                color: #FFFFFF;
-            }
         }
     }
 
@@ -194,7 +183,6 @@ $-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28p
         color: $yh-muted !important;
 
         &::before {
-            content: "";
             border-color: $yh-border;
             background: $yh-surface;
         }
@@ -253,10 +241,6 @@ $-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28p
         color: $yh-red-ink;
         box-shadow: none;
 
-        &::before {
-            font: normal normal normal 14px/1 FontAwesome;
-        }
-
         &:hover,
         &:focus-visible {
             border-color: $yh-red;
@@ -266,11 +250,13 @@ $-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28p
     }
 
     &[name^="action_undo_"]::before {
-        content: "\f0e2"; // fa-undo
+        content: "";
+        @include yh-mask("undo", 16px, 2.2);
     }
 
     &[name="action_reject"]::before {
-        content: "\f05e"; // fa-ban
+        content: "";
+        @include yh-mask("ban", 16px, 2.2);
     }
 }
 

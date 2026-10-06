@@ -1,0 +1,55 @@
+// ============================================================================
+// Bảng màu tối — chỉ có trong bundle web.assets_web_dark (cookie color_scheme=dark),
+// chèn ngay sau yh_tokens.scss nên mọi file SCSS phía sau dùng giá trị tối.
+// Odoo Community không có biến dark mode cho core, nên đảo luôn thang xám $o-gray-*.
+// ============================================================================
+
+$yh-bg: #0E1422;
+$yh-surface: #161D2E;
+$yh-surface-2: #1B2438;
+$yh-input-bg: #121A2B;
+$yh-border: #2A3550;
+$yh-border-soft: #222C42;
+$yh-border-strong: #3E4C6D;
+$yh-border-readonly: #34405C;
+
+$yh-ink: #EEF2F9;
+$yh-ink-2: #D3DAE8;
+$yh-text-2: #B9C3D7;
+$yh-muted: #97A3BB;
+$yh-muted-2: #8A97B0;
+
+$yh-blue: #2F6BF2;
+$yh-blue-ink: #9DB8FF;
+$yh-blue-tint: #1A2A4D;
+$yh-blue-tint-2: #27407A;
+
+$yh-orange-ink: #FFB27A;
+$yh-orange-tint: #3A2615;
+$yh-orange-alert-bg: #2E2014;
+$yh-orange-alert-border: #6B4321;
+$yh-orange-alert-text: #FFD3B0;
+
+$yh-green-ink: #63D395;
+$yh-green-tint: #12301F;
+
+$yh-red-ink: #FF9B9B;
+$yh-red-tint: #3A1A1E;
+$yh-red-border: #6E2E34;
+
+$yh-switch-off: #3A4766;
+$yh-dropzone-bg: #15213D;
+$yh-dropzone-border: #3B5BA8;
+$yh-alert-btn-border: #8A5426;
+$yh-shadow-card: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 32px -18px rgba(0, 0, 0, .6);
+
+// Thang xám của Odoo/Bootstrap: đảo sáng/tối
+$o-gray-100: #1A2132;
+$o-gray-200: #222B40;
+$o-gray-300: #2C374F;
+$o-gray-400: #3A4766;
+$o-gray-500: #5B6884;
+$o-gray-600: #8592AB;
+$o-gray-700: #B4BED2;
+$o-gray-800: #D3DAE8;
+$o-gray-900: #EEF2F9;

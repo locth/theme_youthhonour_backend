@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- Thanh tiêu đề phía trên bảng khi list đang nhóm -->
+    <t t-name="theme_youthhonour_backend.ListRenderer" t-inherit="web.ListRenderer" t-inherit-mode="extension">
+        <xpath expr="//table" position="before">
+            <div t-if="yhIsMainGroupedList" class="yh_list_header">
+                <t t-set="yhInfo" t-value="yhHeaderInfo"/>
+                <div class="yh_list_header_title">
+                    <h2 t-esc="yhInfo.title"/>
+                    <span t-esc="yhInfo.summary"/>
+                </div>
+                <div class="yh_list_header_actions">
+                    <button type="button" class="btn yh_btn_soft" t-on-click.stop="yhToggleAllGroups">
+                        <t t-if="yhInfo.anyFolded">Mở tất cả</t>
+                        <t t-else="">Thu gọn tất cả</t>
+                    </button>
+                    <button t-if="env.yhCanExport and env.yhCanExport()" type="button"
+                        class="btn yh_btn_soft yh_btn_export" t-on-click.stop="() => env.yhExportAll()">
+                        Xuất Excel
+                    </button>
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+    <!-- Dòng nhóm: [mã] › tên  (pill số lượng)  [thanh tỷ trọng] -->
+    <t t-name="theme_youthhonour_backend.ListRenderer.GroupRow" t-inherit="web.ListRenderer.GroupRow" t-inherit-mode="extension">
+        <xpath expr="//th[contains(@t-attf-class, 'o_group_name')]/div" position="replace">
+            <t t-set="yhCode" t-value="yhGroupCode(group)"/>
+            <t t-set="yhShare" t-value="yhGroupShare(group)"/>
+            <div class="d-flex align-items-center yh_group_line" t-attf-data-yh-tone="{{ yhGroupTone(group) }}">
+                <span t-if="yhCode" class="yh_group_code" t-esc="yhCode"/>
+                <span t-attf-class="o_group_caret fa fa-fw {{group.isFolded ? 'fa-caret-right' : 'fa-caret-down' }} me-1"
+                    t-attf-style="--o-list-group-level: {{getGroupLevel(group)}}"/>
+                <span class="yh_group_title" t-esc="getGroupDisplayName(group)"/>
+                <span class="yh_group_count" t-esc="group.count"/>
+                <span t-if="yhShare !== null" class="yh_group_share" aria-hidden="true">
+                    <span t-attf-style="width: {{ yhShare }}%"/>
+                </span>
+                <div t-if="(groupByButtons[group.groupByField.name] and !group.isFolded and group.record.resId)" class="o_group_buttons">
+                    <t t-foreach="groupByButtons[group.groupByField.name]" t-as="button" t-key="button.id">
+                        <t t-if="!evalInvisible(button.invisible, group.record)">
+                            <t t-if="button.clickParams.type === 'edit'">
+                                <button t-att-title="button.title" class="btn" t-on-click="() => this.editGroupRecord(group)" tabindex="-1">
+                                    <i t-attf-class="fa fa-fw {{button.icon}} o_button_icon"/>
+                                </button>
+                            </t>
+                            <t t-else="">
+                                <ViewButton
+                                    className="button.className"
+                                    clickParams="button.clickParams"
+                                    icon="button.icon"
+                                    record="group.record"
+                                    string="button.string"
+                                    title="button.title"
+                                    tabindex="'-1'"
+                                />
+                            </t>
+                        </t>
+                    </t>
+                </div>
+                <div t-if="showGroupPager(group)" t-on-click.stop="" class="ms-auto">
+                    <Pager t-props="getGroupPagerProps(group)"/>
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

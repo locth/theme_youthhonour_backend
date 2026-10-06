@@ -1,0 +1,270 @@
+// ============================================================================
+// Style cho các phần OWL của theme: dòng nhóm, thanh tiêu đề nhóm, chip lọc nhanh,
+// phân trang dạng số (static/src/views/list/*)
+// ============================================================================
+
+$-yh-tones: (
+    "blue": ($yh-blue-tint, $yh-blue-ink, $yh-blue),
+    "orange": ($yh-orange-tint, $yh-orange-ink, $yh-orange),
+    "green": ($yh-green-tint, $yh-green-ink, $yh-green),
+    "red": ($yh-red-tint, $yh-red-ink, $yh-red),
+);
+
+// --- Dòng nhóm ---------------------------------------------------------------------
+.o_list_renderer .o_group_header .yh_group_line {
+    gap: 8px;
+    min-width: 0;
+
+    .yh_group_code {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        padding: 0 6px;
+        margin-right: 6px;
+        border-radius: 12px;
+        background: $yh-blue-tint;
+        color: $yh-blue-ink;
+        font-size: 11.5px;
+        font-weight: 800;
+        letter-spacing: .02em;
+    }
+
+    .yh_group_title {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .yh_group_count {
+        flex: none;
+        min-width: 44px;
+        padding: 3px 10px;
+        border-radius: 999px;
+        background: $yh-blue-tint;
+        color: $yh-blue-ink;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+    }
+
+    // thanh tỷ trọng đẩy về bên phải
+    .yh_group_share {
+        flex: 0 1 260px;
+        min-width: 120px;
+        height: 8px;
+        margin-left: auto;
+        border-radius: 999px;
+        background: $yh-border-soft;
+        overflow: hidden;
+
+        > span {
+            display: block;
+            height: 100%;
+            border-radius: 999px;
+            background: $yh-blue;
+        }
+    }
+
+    @each $tone, $spec in $-yh-tones {
+        &[data-yh-tone="#{$tone}"] {
+            .yh_group_code {
+                background: nth($spec, 1);
+                color: nth($spec, 2);
+            }
+
+            .yh_group_share > span {
+                background: nth($spec, 3);
+                box-shadow: 0 0 10px rgba(nth($spec, 3), yh-a(.7));
+            }
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .o_list_renderer .o_group_header .yh_group_line .yh_group_share {
+        display: none;
+    }
+}
+
+// --- Thanh tiêu đề khi list đang nhóm -------------------------------------------------
+.yh_list_header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 22px;
+    border-bottom: 1px solid $yh-border;
+    background: $yh-surface;
+
+    .yh_list_header_title {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 4px 10px;
+
+        h2 {
+            margin: 0;
+            color: $yh-ink;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        span {
+            color: $yh-muted;
+            font-size: 13px;
+        }
+    }
+
+    .yh_list_header_actions {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+.yh_btn_soft {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px;
+    border: 1px solid $yh-border;
+    border-radius: $yh-radius-ctl-sm;
+    background: $yh-surface;
+    color: $yh-text-2;
+    font-weight: 600;
+
+    &:hover,
+    &:focus-visible {
+        border-color: $yh-blue-tint-2;
+        background: $yh-blue-tint;
+        color: $yh-blue-ink;
+    }
+
+    &.yh_btn_export::before {
+        content: "";
+        @include yh-mask("download", 16px);
+    }
+}
+
+// --- Chip lọc nhanh --------------------------------------------------------------------
+.yh_quick_filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 0 18px;
+}
+
+.yh_chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 1px solid $yh-border;
+    border-radius: 999px;
+    background: $yh-surface;
+    color: $yh-text-2;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: border-color .15s, color .15s, background-color .15s;
+
+    &:hover,
+    &:focus-visible {
+        border-color: $yh-blue;
+        color: $yh-blue-ink;
+    }
+
+    &.yh_chip_active {
+        border-color: $yh-ink;
+        background: $yh-ink;
+        color: $yh-surface;
+    }
+
+    .yh_chip_dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: $yh-muted-2;
+    }
+
+    &.yh_chip_groupby {
+        border-style: dashed;
+        border-color: $yh-border-strong;
+        background: transparent;
+        color: $yh-muted;
+
+        .yh_chip_icon {
+            @include yh-mask("layers", 16px);
+        }
+
+        &.yh_chip_active {
+            border-style: solid;
+            border-color: $yh-blue;
+            background: $yh-blue;
+            color: #FFFFFF;
+        }
+    }
+}
+
+// Màu chấm theo nhóm đối tượng (filter yh_quick_* trong search view hồ sơ người dùng)
+.yh_chip[data-name="yh_quick_student"] .yh_chip_dot { background: $yh-orange; }
+.yh_chip[data-name="yh_quick_academic"] .yh_chip_dot { background: $yh-green; }
+.yh_chip[data-name="yh_quick_management"] .yh_chip_dot { background: $yh-blue; }
+.yh_chip[data-name="yh_quick_ptnk"] .yh_chip_dot { background: $yh-red; }
+
+// --- Phân trang dạng số -------------------------------------------------------------------
+.yh_number_pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 0 0;
+    color: $yh-muted;
+    font-size: 13px;
+
+    .yh_number_pager_pages {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .yh_page {
+        min-width: 40px;
+        height: 40px;
+        padding: 0 8px;
+        border: 1px solid $yh-border;
+        border-radius: $yh-radius-ctl-sm;
+        background: $yh-surface;
+        color: $yh-text-2;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+
+        &:hover {
+            border-color: $yh-blue-tint-2;
+            background: $yh-blue-tint;
+            color: $yh-blue-ink;
+        }
+
+        &.yh_page_current {
+            border-color: $yh-blue;
+            background: $yh-blue;
+            color: #FFFFFF;
+            font-weight: 700;
+            box-shadow: yh-glow-blue();
+        }
+    }
+
+    .yh_page_gap {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+    }
+}

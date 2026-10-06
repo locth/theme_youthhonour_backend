@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="theme_youthhonour_backend.ListView" t-inherit="web.ListView" t-inherit-mode="extension">
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <YhQuickFilters/>
+        </xpath>
+        <xpath expr="//t[@t-component='props.Renderer']" position="after">
+            <YhNumberPager/>
+        </xpath>
+    </t>
+
+    <t t-name="theme_youthhonour_backend.QuickFilters">
+        <div t-if="items.length" class="yh_quick_filters" role="toolbar" aria-label="Lọc nhanh">
+            <button t-if="filters.length" type="button" class="yh_chip"
+                t-att-class="{ 'yh_chip_active': noneActive }" t-on-click="clearFilters">
+                Tất cả<t t-if="noneActive and countLabel"> · <t t-esc="countLabel"/></t>
+            </button>
+            <t t-foreach="filters" t-as="item" t-key="item.id">
+                <button type="button" class="yh_chip" t-att-class="{ 'yh_chip_active': item.isActive }"
+                    t-att-data-name="item.name" t-att-aria-pressed="item.isActive ? 'true' : 'false'"
+                    t-on-click="() => this.toggleFilter(item)">
+                    <span class="yh_chip_dot"/>
+                    <t t-esc="item.description"/>
+                    <t t-if="item.isActive and countLabel"> · <t t-esc="countLabel"/></t>
+                </button>
+            </t>
+            <t t-foreach="groupBys" t-as="item" t-key="item.id">
+                <button type="button" class="yh_chip yh_chip_groupby" t-att-class="{ 'yh_chip_active': item.isActive }"
+                    t-att-data-name="item.name" t-att-aria-pressed="item.isActive ? 'true' : 'false'"
+                    t-on-click="() => this.toggleGroupBy(item)">
+                    <span class="yh_chip_icon"/>
+                    Nhóm theo <t t-esc="item.description"/>
+                </button>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="theme_youthhonour_backend.NumberPager">
+        <nav t-if="visible" class="yh_number_pager" aria-label="Phân trang">
+            <span class="yh_number_pager_summary" t-esc="summary"/>
+            <div class="yh_number_pager_pages">
+                <t t-foreach="pages" t-as="page" t-key="page_index">
+                    <span t-if="page === null" class="yh_page_gap">…</span>
+                    <button t-else="" type="button" class="yh_page" t-att-class="{ 'yh_page_current': page === current }"
+                        t-att-aria-current="page === current ? 'page' : undefined"
+                        t-on-click="() => this.goTo(page)" t-esc="page + 1"/>
+                </t>
+            </div>
+        </nav>
+    </t>
+
+</templates>

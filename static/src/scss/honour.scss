@@ -1,0 +1,791 @@
+// ============================================================================
+// Style cho markup Phase 2 của honour_vnuhcm (class yh_* trong view + widget yh_*).
+// Không có module này thì các selector đơn giản là không khớp.
+// ============================================================================
+
+// --- Thẻ chung trong form ---------------------------------------------------------
+.o_form_view .yh_card {
+    @include yh-card;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+    padding: 22px 24px;
+}
+
+.o_form_view .yh_card_title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $yh-ink;
+    font-size: 16px;
+    font-weight: 700;
+
+    &::before {
+        @include yh-svg-tile(32px, 10px, $yh-blue-tint, $yh-blue, "list", 18px);
+    }
+}
+
+.o_form_view .yh_label {
+    color: $yh-muted;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+// --- Form SV5T/CBTTB: thẻ người được đề cử + thẻ nhận xét --------------------------
+.o_form_view .yh_app_header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 18px;
+    margin-bottom: 18px;
+
+    > .yh_nominee_card {
+        flex: 1 1 520px;
+    }
+
+    > .yh_comment_card {
+        flex: 1 1 420px;
+        gap: 14px;
+    }
+}
+
+.o_form_view .yh_nominee_top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+
+    .yh_nominee_avatar {
+        flex: none;
+
+        img {
+            width: 64px !important;
+            height: 64px !important;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 0 0 3px $yh-surface, 0 0 0 5px $yh-orange, 0 0 24px 2px rgba(255, 122, 26, yh-a(.6));
+        }
+    }
+
+    .yh_nominee_name {
+        display: flex;
+        flex: 1 1 200px;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+
+        .o_field_widget,
+        .o_form_uri {
+            color: $yh-ink;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -.01em;
+        }
+
+        .o_form_uri:hover {
+            color: $yh-blue-ink;
+        }
+    }
+
+    // ô "Năm xét" nền đậm
+    .yh_year_tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 8px 16px;
+        border-radius: 14px;
+        background: $yh-ink;
+        color: $yh-surface;
+
+        > span {
+            color: $yh-border-strong;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .o_field_widget {
+            color: $yh-surface;
+            font-size: 20px;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+    }
+}
+
+.o_form_view .yh_info_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px 20px;
+
+    .yh_info_tile {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: $yh-surface-2;
+
+        .o_field_widget {
+            font-weight: 600;
+        }
+    }
+}
+
+.o_form_view .yh_check_chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .yh_check_chip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: $yh-tap;
+        padding: 0 14px;
+        border: 1px solid $yh-border;
+        border-radius: $yh-radius-ctl;
+        color: $yh-text-2;
+        font-weight: 600;
+
+        .o-checkbox {
+            margin: 0;
+        }
+
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            opacity: 1;
+        }
+
+        &:has(.form-check-input:checked) {
+            border-color: transparent;
+            background: $yh-green-tint;
+            color: $yh-green-ink;
+            font-weight: 700;
+
+            .form-check-input {
+                border-color: $yh-green;
+                background-color: $yh-green;
+            }
+        }
+
+        &.yh_check_standouts:has(.form-check-input:checked) {
+            background: $yh-orange-tint;
+            color: $yh-orange-ink;
+
+            .form-check-input {
+                border-color: $yh-orange;
+                background-color: $yh-orange;
+            }
+        }
+    }
+}
+
+.o_form_view .yh_contract {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .yh_pdf_preview iframe {
+        height: 420px;
+        border: 1px solid $yh-border;
+        border-radius: 14px;
+    }
+}
+
+// thẻ nhận xét: dòng "Cấp Đơn vị … [Đạt]"
+.o_form_view .yh_comment_rows {
+    display: flex;
+    flex-direction: column;
+
+    .yh_comment_row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid $yh-border-soft;
+
+        &:last-child {
+            border-bottom: 0;
+        }
+
+        > span {
+            flex: none;
+            color: $yh-text-2;
+            font-weight: 500;
+        }
+    }
+
+    .yh_comment_value {
+        flex: 0 1 auto;
+        width: auto !important;
+        max-width: 70%;
+        margin-left: auto;
+        padding: 4px 12px;
+        border-radius: 14px;
+        background: $yh-blue-tint;
+        color: $yh-blue-ink;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: right;
+        white-space: pre-wrap;
+
+        &.o_field_empty {
+            background: $yh-bg;
+            color: $yh-muted;
+            font-weight: 600;
+
+            &::after {
+                content: "Chưa có nhận xét";
+            }
+        }
+    }
+}
+
+.o_form_view .yh_comment_editor {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .yh_label {
+        color: $yh-blue-ink;
+        font-weight: 700;
+    }
+
+    .o_field_widget {
+        width: 100%;
+    }
+
+    textarea.o_input {
+        min-height: 72px;
+        padding: 12px 14px;
+        border: 1px solid $yh-border;
+        border-radius: $yh-radius-ctl;
+        background: $yh-input-bg;
+        color: $yh-ink;
+        font-weight: 500;
+
+        &:focus {
+            @include yh-glow-focus;
+            background: $yh-surface;
+        }
+    }
+}
+
+// --- Khối tiêu chí: hướng dẫn, nút "Thêm tiêu chuẩn", trạng thái rỗng ---------------
+.o_form_view .yh_sec_criteria {
+    position: relative;
+}
+
+.o_form_view .yh_guide {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 18px;
+    margin-bottom: 4px;
+    padding: 18px 20px;
+    border: 1px solid $yh-blue-tint-2;
+    border-radius: $yh-radius-card;
+    background: $yh-blue-tint;
+
+    .yh_guide_icon {
+        @include yh-svg-tile(36px, 10px, $yh-blue, #FFFFFF, "info", 18px, 2.2);
+        box-shadow: yh-glow-blue();
+    }
+
+    .yh_guide_body {
+        display: flex;
+        flex: 1 1 480px;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    .yh_guide_title {
+        color: $yh-ink;
+        font-weight: 800;
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin: 0;
+        padding-left: 18px;
+        color: $yh-ink-2;
+        line-height: 1.55;
+    }
+
+    a {
+        font-weight: 700;
+        text-decoration: underline;
+    }
+}
+
+// nút cam ở góc phải đầu thẻ tiêu chí; ẩn khi tab không cho thêm dòng (chỉ đọc)
+.o_form_view .yh_add_line {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: $yh-radius-ctl-sm;
+    background: $yh-orange;
+    color: $yh-orange-on;
+    font-weight: 700;
+    box-shadow: yh-glow-orange();
+
+    &::before {
+        content: "";
+        @include yh-mask("plus", 16px, 2.4);
+    }
+
+    &:hover,
+    &:focus-visible {
+        background: darken($yh-orange, 6%);
+        color: $yh-orange-on;
+    }
+}
+
+.o_form_view .yh_sec_criteria:not(:has(.o_field_x2many_list_row_add)) .yh_add_line {
+    display: none;
+}
+
+// Tab chưa có tiêu chuẩn nào
+.o_form_view .yh_sec_criteria .o_field_x2many_list .o_list_renderer:not(:has(.o_data_row)) {
+    > .o_list_table > thead {
+        display: none;
+    }
+
+    > .o_list_table > tbody > tr:not(:has(.o_field_x2many_list_row_add)) {
+        display: none;
+    }
+
+    &::before {
+        content: "Chưa có tiêu chuẩn nào trong nhóm này. Bấm “Thêm tiêu chuẩn” để chọn tiêu chuẩn và tải minh chứng PDF.";
+        display: block;
+        padding: 96px 22px 32px;
+        background: yh-svg("file-text", $yh-muted-2, 1.8) center 40px / 26px no-repeat;
+        color: $yh-muted;
+        text-align: center;
+    }
+}
+
+// --- Dialog tiêu chuẩn: "Loại" và "Mô tả" cạnh nhau; công tắc "Thỏa mãn" -----------------
+.o_form_view .o_inner_group.yh_pair {
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 18px !important;
+
+    > .o_wrap_field:first-child {
+        flex: 0 1 180px;
+    }
+
+    > .o_wrap_field:last-child {
+        flex: 1 1 400px;
+    }
+}
+
+.o_field_boolean_toggle .form-switch {
+    min-height: 32px;
+    margin: 0;
+    padding-left: 0;
+
+    .form-check-input {
+        width: 56px;
+        height: 32px;
+        margin: 0;
+        border: 0;
+        border-radius: 999px;
+        background-color: $yh-switch-off;
+        --bs-form-switch-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3.25' fill='%23fff'/%3e%3c/svg%3e");
+        opacity: 1 !important;
+        cursor: default;
+
+        &:checked {
+            background-color: $yh-green;
+            box-shadow: yh-glow-green();
+        }
+    }
+}
+
+// --- Widget yh_pdf_dropzone -------------------------------------------------------------
+.yh_pdf_field {
+    width: 100%;
+}
+
+.yh_dropzone {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border: 2px dashed $yh-dropzone-border;
+    border-radius: 16px;
+    background: $yh-dropzone-bg;
+    transition: border-color .15s, background-color .15s;
+
+    &.yh_dropzone_active {
+        border-color: $yh-blue;
+        background: $yh-blue-tint;
+    }
+
+    .yh_dropzone_icon {
+        flex: none;
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        background: $yh-surface yh-svg("upload", $yh-blue) center / 24px no-repeat;
+        box-shadow: yh-glow-blue-soft();
+    }
+
+    .yh_dropzone_text {
+        display: flex;
+        flex: 1 1 240px;
+        flex-direction: column;
+        gap: 2px;
+        color: $yh-ink;
+
+        span {
+            color: $yh-muted;
+            font-size: 13px;
+        }
+    }
+
+    .yh_dropzone_btn {
+        display: inline-flex;
+        align-items: center;
+        height: $yh-tap;
+        margin: 0;
+        padding: 0 16px;
+        cursor: pointer;
+    }
+}
+
+.yh_file_chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    padding: 6px 6px 6px 6px;
+    border: 1px solid $yh-border;
+    border-radius: $yh-radius-ctl-sm;
+    background: $yh-surface;
+
+    .yh_file_name {
+        min-width: 0;
+        overflow: hidden;
+        color: $yh-ink;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .yh_icon_btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 8px;
+        color: $yh-muted;
+        cursor: pointer;
+
+        &:hover {
+            background: $yh-blue-tint;
+            color: $yh-blue;
+        }
+
+        &.yh_file_download::before { content: ""; @include yh-mask("download", 16px); }
+        &.yh_file_replace::before { content: ""; @include yh-mask("upload", 16px); }
+        &.yh_file_clear::before { content: ""; @include yh-mask("trash", 16px); }
+        &.yh_file_clear:hover { background: $yh-red-tint; color: $yh-red; }
+    }
+}
+
+.yh_file_badge {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: $yh-red;
+    color: #FFFFFF;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.yh_file_empty {
+    color: $yh-muted;
+}
+
+// --- Widget yh_two_line (list) ------------------------------------------------------------
+// (CSS ô list của Odoo ép span thành display:block nên các display bên dưới cần !important)
+.yh_two_line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+
+    .yh_two_line_avatar {
+        flex: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        object-fit: cover;
+        box-shadow: 0 0 0 1px $yh-border;
+    }
+
+    .yh_two_line_initials {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        background: $yh-blue-tint;
+        color: $yh-blue-ink;
+        font-size: 13px;
+        font-weight: 700;
+        box-shadow: none;
+    }
+
+    .yh_two_line_prefix {
+        display: inline-block !important;
+        flex: none;
+        padding: 3px 7px;
+        border-radius: 6px;
+        background: $yh-blue-tint;
+        color: $yh-blue-ink;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .yh_two_line_text {
+        display: flex !important;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .yh_two_line_primary,
+    .yh_two_line_secondary {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .yh_two_line_primary {
+        color: $yh-ink;
+        font-weight: 600;
+    }
+
+    .yh_two_line_secondary {
+        color: $yh-muted;
+        font-size: 12.5px;
+        font-variant-numeric: tabular-nums;
+    }
+}
+
+// cột Liên hệ: email màu link
+.o_data_cell[name="email"] .yh_two_line_primary {
+    color: $yh-blue-ink;
+    font-weight: 500;
+}
+
+// --- Form hồ sơ người dùng ------------------------------------------------------------------
+// Chip dưới tên: Nhóm đối tượng · Mã số · Chi Đoàn
+.o_form_view .yh_title_chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 4px;
+
+    > .o_field_widget {
+        width: auto !important;
+    }
+
+    .yh_chip_code > span,
+    .yh_chip_soft > span {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .yh_chip_code > span {
+        background: $yh-blue-tint;
+        color: $yh-blue-ink;
+        font-variant-numeric: tabular-nums;
+
+        &::before {
+            content: "Mã số\00a0";
+        }
+    }
+
+    .yh_chip_soft > span {
+        background: $yh-bg;
+        color: $yh-text-2;
+    }
+}
+
+// pill + chấm phát sáng cho widget badge (Nhóm đối tượng, Loại tiêu chuẩn)
+.o_field_badge .badge,
+.o_list_renderer .o_field_badge .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+
+    &::before {
+        content: "";
+        flex: none;
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: currentColor;
+        opacity: .9;
+    }
+}
+
+.o_form_view .yh_title_chips .o_field_badge .badge {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.badge.text-bg-warning::before { background: $yh-orange; box-shadow: yh-glow-dot(255, 122, 26); }
+.badge.text-bg-success::before { background: $yh-green; box-shadow: yh-glow-dot(22, 163, 74); }
+.badge.text-bg-info::before { background: $yh-blue; box-shadow: yh-glow-dot(30, 94, 240); }
+.badge.text-bg-danger::before { background: $yh-red; box-shadow: yh-glow-dot(220, 38, 38); }
+
+// Hộp thông báo cam + nút "Tải lại trang"
+.o_form_view .yh_alert {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+    margin: 0 0 18px;
+    padding: 14px 16px 14px 18px;
+    border-radius: 16px;
+
+    &.yh_alert_warning {
+        border: 1px solid $yh-orange-alert-border;
+        background: $yh-orange-alert-bg;
+        color: $yh-orange-alert-text;
+
+        .yh_alert_icon {
+            @include yh-svg-tile(36px, 10px, $yh-orange, $yh-orange-on, "info", 18px, 2.2);
+            box-shadow: yh-glow-orange-sm();
+        }
+    }
+
+    .yh_alert_text {
+        flex: 1 1 320px;
+        font-weight: 600;
+    }
+
+    .yh_btn_reload {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 40px;
+        padding: 0 14px;
+        border: 1px solid $yh-alert-btn-border;
+        border-radius: $yh-radius-ctl-sm;
+        background: $yh-surface;
+        color: $yh-orange-ink;
+        font-weight: 700;
+
+        &::before {
+            content: "";
+            @include yh-mask("refresh", 16px, 2.2);
+        }
+
+        &:hover {
+            background: $yh-orange-tint;
+        }
+    }
+}
+
+// Giới tính: segmented control (widget radio ngang)
+.o_form_view .o_field_radio.yh_segmented {
+    .o_horizontal,
+    .o_radio_input + label {
+        margin: 0;
+    }
+
+    > div,
+    .o_horizontal {
+        display: flex;
+        gap: 4px;
+        width: 100%;
+        padding: 4px;
+        border-radius: $yh-radius-ctl;
+        background: $yh-bg;
+    }
+
+    .o_radio_item {
+        flex: 1 1 0;
+        margin: 0 !important;
+        padding: 0;
+
+        .o_radio_input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .o_form_label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 36px;
+            margin: 0;
+            border-radius: 9px;
+            color: $yh-muted;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        &:has(.o_radio_input:checked) .o_form_label {
+            background: $yh-surface;
+            color: $yh-blue-ink;
+            font-weight: 700;
+            box-shadow: 0 1px 2px rgba(14, 26, 51, .08), 0 0 0 1px $yh-blue-tint-2;
+        }
+
+        &:has(.o_radio_input:focus-visible) .o_form_label {
+            @include yh-glow-focus;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .o_form_view .yh_add_line {
+        position: static;
+        align-self: flex-start;
+        margin-bottom: 8px;
+    }
+
+    .o_form_view .yh_card {
+        padding: 18px 16px;
+    }
+}

@@ -46,6 +46,9 @@ $yh-red-border: #F2B8B8;
 $yh-banner-red: #B91C1C;
 
 $yh-switch-off: #CBD3E1;
+$yh-dropzone-bg: #F5F8FF;
+$yh-dropzone-border: #9DB5F7;
+$yh-alert-btn-border: #FFB27A;
 
 // --- Chữ -----------------------------------------------------------------------
 $yh-font-family: ("Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
@@ -111,21 +114,4 @@ $yh-shadow-card: 0 1px 2px rgba(14, 26, 51, .04), 0 12px 32px -18px rgba(14, 26,
     border: 1px solid $yh-border;
     border-radius: $radius;
     box-shadow: $yh-shadow-card;
-}
-
-// Ô icon vuông dùng Font Awesome 4.7 (có sẵn trong Odoo 18)
-@mixin yh-icon-tile($size, $radius, $bg, $color, $glyph, $font-size: 14px) {
-    content: $glyph;
-    flex: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: $size;
-    height: $size;
-    border-radius: $radius;
-    background: $bg;
-    color: $color;
-    font: normal normal normal #{$font-size}/1 FontAwesome;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
 }

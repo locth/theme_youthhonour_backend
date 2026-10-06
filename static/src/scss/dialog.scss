@@ -24,6 +24,17 @@
         border-bottom: 1px solid $yh-border;
         background: $yh-surface;
 
+        // Dialog chứa form: ô icon 44px nền xanh có glow trước tiêu đề
+        &:has(+ .modal-body .o_form_renderer)::before {
+            @include yh-svg-tile(44px, 14px, $yh-blue, #FFFFFF, "file-text", 22px);
+            box-shadow: yh-glow-blue();
+            margin-right: 8px;
+        }
+
+        .o_expand_button {
+            @include yh-replace-glyph("expand", 18px);
+        }
+
         .modal-title {
             color: $yh-ink;
             font-size: 19px;
@@ -126,17 +137,16 @@
             gap: 8px;
             padding: 0 20px;
 
+            > .fa {
+                display: none;
+            }
+
             &::before {
-                content: "\f00c"; // fa-check
-                font: normal normal normal 14px/1 FontAwesome;
+                content: "";
+                @include yh-mask("check", 16px, 2.4);
             }
         }
 
-        // custom_save_button chèn thêm nhãn "Lưu" vào nút save của dialog
-        // ("Lưu & Đóng Lưu"); trong dialog chữ gốc đã đủ nghĩa nên ẩn nhãn thừa.
-        .custom-save-button .csb-label {
-            display: none;
-        }
     }
 }
 

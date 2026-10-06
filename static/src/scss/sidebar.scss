@@ -142,6 +142,33 @@
     text-overflow: ellipsis;
 }
 
+// Icon SVG màu riêng cho các app chính (app khác giữ ảnh PNG web_icon)
+$-yh-sidebar-apps: (
+    "honour_vnuhcm.honour_sv5t_menu": ("id-card", $yh-blue),
+    "honour_vnuhcm.menu_sv5t_root": ("star", $yh-orange),
+    "honour_vnuhcm.menu_cbttb_root": ("award", $yh-green),
+    "base.menu_management": ("apps", $yh-blue),
+    "base.menu_administration": ("sliders", $yh-red),
+);
+
+@each $xmlid, $spec in $-yh-sidebar-apps {
+    .yh_sidebar_link[data-menu-xmlid="#{$xmlid}"] {
+        .yh_sidebar_icon {
+            display: none;
+        }
+
+        &::before {
+            content: "";
+            @include yh-mask(nth($spec, 1), 20px, 1.8);
+            color: nth($spec, 2);
+        }
+    }
+}
+
+.yh_sidebar_item.active > .yh_sidebar_link::before {
+    color: #FFFFFF;
+}
+
 // Mục đang chọn: pill xanh, chữ trắng, glow
 .yh_sidebar_item.active > .yh_sidebar_link {
     background: $yh-blue;

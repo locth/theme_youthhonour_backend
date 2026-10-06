@@ -51,35 +51,24 @@
     text-transform: none !important;
 
     &::before {
-        @include yh-icon-tile(32px, 10px, $yh-blue-tint, $yh-blue, "\f03a", 15px); // fa-list
+        @include yh-svg-tile(32px, 10px, $yh-blue-tint, $yh-blue, "list", 18px);
     }
 }
 
-// Màu ô icon theo vị trí thẻ: tài khoản = xanh dương, cá nhân = cam, liên hệ = xanh lá
-.o_form_sheet > :nth-child(1) .o_horizontal_separator::before {
-    content: "\f007"; // fa-user
-}
-.o_form_sheet > :nth-child(2) .o_horizontal_separator::before {
-    content: "\f2c2"; // fa-id-card-o
-    background: $yh-orange-tint;
-    color: #C2510A;
-}
-.o_form_sheet > :nth-child(3) .o_horizontal_separator::before {
-    content: "\f041"; // fa-map-marker
-    background: $yh-green-tint;
-    color: $yh-green-ink;
-}
-// Nhóm nhận xét (SV5T/CBTTB): xanh lá, icon bình luận
-.o_form_sheet .o_inner_group:has(.o_field_widget[name="vnu_comment"]) .o_horizontal_separator::before {
-    content: "\f0e5"; // fa-comment-o
-    background: $yh-green-tint;
-    color: $yh-green-ink;
-}
-// Khối tiêu chí có notebook: icon danh sách việc
-.o_form_sheet > .o_inner_group:has(.o_notebook) .o_horizontal_separator::before {
-    content: "\f0ae"; // fa-tasks
-    background: $yh-blue-tint;
-    color: $yh-blue;
+// Ô icon của tiêu đề thẻ theo class gắn trong view (<group class="yh_sec_...">)
+$-yh-sections: (
+    "account": ("user", $yh-blue-tint, $yh-blue),
+    "personal": ("id-card", $yh-orange-tint, $yh-orange-ink),
+    "contact": ("map-pin", $yh-green-tint, $yh-green-ink),
+    "comment": ("message", $yh-green-tint, $yh-green-ink),
+    "criteria": ("list-checks", $yh-blue-tint, $yh-blue),
+);
+
+@each $name, $spec in $-yh-sections {
+    .o_form_view .yh_sec_#{$name} .o_horizontal_separator::before,
+    .o_form_view .yh_sec_#{$name} > .yh_card_title::before {
+        background: nth($spec, 2) yh-svg(nth($spec, 1), nth($spec, 3)) center / 18px no-repeat;
+    }
 }
 
 // --- Label nằm trên input ------------------------------------------------------
@@ -288,10 +277,9 @@ $-yh-boxed-fields: ".o_field_char, .o_field_text, .o_field_selection, .o_field_m
         gap: 8px;
 
         &::before {
-            content: "\f1ad"; // fa-building
-            flex: none;
+            content: "";
+            @include yh-mask("building", 18px, 1.8);
             color: $yh-blue;
-            font: normal normal normal 17px/1 FontAwesome;
         }
 
         > .o_field_widget {
@@ -313,61 +301,59 @@ $-yh-boxed-fields: ".o_field_char, .o_field_text, .o_field_selection, .o_field_m
         box-shadow: yh-glow-ring();
     }
 
-    // nút sửa/xóa ảnh: tròn, nền cam
+    // nút đổi ảnh: tròn 40px nền cam có icon máy ảnh, luôn hiện ở góc dưới phải; nút xóa chỉ hiện khi hover
+    > div {
+        position: relative;
+    }
+
+    .position-absolute.bottom-0 {
+        right: -10px;
+        bottom: -10px !important;
+        left: auto;
+        width: auto !important;
+        gap: 6px;
+        opacity: 1 !important;
+    }
+
     .o_select_file_button,
     .o_clear_file_button {
-        width: 36px;
-        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        margin: 0 !important;
+        padding: 0 !important;
         border: 3px solid $yh-surface !important;
-        background: $yh-orange !important;
-        color: $yh-orange-on !important;
         box-shadow: yh-glow-orange-sm();
     }
 
+    .o_select_file_button {
+        background: $yh-orange !important;
+        color: $yh-orange-on !important;
+
+        .fa-pencil {
+            @include yh-replace-glyph("camera", 18px, 2.2);
+        }
+    }
+
     .o_clear_file_button {
+        order: -1;
         background: $yh-surface !important;
         color: $yh-red !important;
         border-color: $yh-red-border !important;
-    }
-}
+        box-shadow: none;
+        opacity: 0;
+        transition: opacity .15s;
 
-// --- Thông báo chữ đỏ inline trong view hồ sơ -> hộp thông báo cam ---------------
-// (view hiện viết <p style="color: red">; khi đổi markup ở Phase 2 thì bỏ khối này)
-.o_form_view p[style*="color: red"],
-.o_form_view p[style*="color:red"] {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin: 4px 0 0;
-    padding: 14px 16px 14px 14px;
-    border: 1px solid $yh-orange-alert-border;
-    border-radius: 16px;
-    background: $yh-orange-alert-bg;
-    color: $yh-orange-alert-text !important;
-    font-weight: 600 !important;
-
-    &::before {
-        @include yh-icon-tile(36px, 10px, $yh-orange, $yh-orange-on, "\f05a", 16px); // fa-info-circle
-        box-shadow: yh-glow-orange-sm();
-    }
-}
-
-// --- Hướng dẫn dạng <li> trong khối tiêu chí: hộp xanh nhạt -----------------------
-.o_form_view .o_inner_group > .o_wrap_field > .o_cell > div:has(> li) {
-    padding: 18px 20px 18px 38px !important;
-    border: 1px solid $yh-blue-tint-2;
-    border-radius: $yh-radius-card;
-    background: $yh-blue-tint;
-    color: $yh-ink-2;
-    line-height: 1.55;
-
-    li {
-        margin: 2px 0;
+        .fa-trash-o {
+            @include yh-replace-glyph("trash", 16px);
+        }
     }
 
-    a {
-        font-weight: 700;
-        text-decoration: underline;
+    &:hover .o_clear_file_button,
+    .o_clear_file_button:focus-visible {
+        opacity: 1;
     }
 }
 
