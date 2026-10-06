@@ -1,0 +1,147 @@
+// ============================================================================
+// Dialog: bo 24px, glow; footer nền surface-2 với thứ tự Hủy / Lưu & Tạo mới / Lưu & Đóng
+// ============================================================================
+
+.modal-backdrop {
+    --backdrop-bg: #{$yh-ink};
+    --backdrop-opacity: .48;
+    --bs-backdrop-bg: #{$yh-ink};
+    --bs-backdrop-opacity: .48;
+    backdrop-filter: blur(4px);
+}
+
+.o_dialog .modal-content,
+.modal .modal-content {
+    overflow: hidden;
+    border: 0;
+    border-radius: $yh-radius-dialog;
+    box-shadow: yh-glow-modal();
+
+    > .modal-header {
+        align-items: center;
+        gap: 6px;
+        padding: 20px 20px 18px 24px;
+        border-bottom: 1px solid $yh-border;
+        background: $yh-surface;
+
+        .modal-title {
+            color: $yh-ink;
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -.01em;
+        }
+
+        .btn,
+        .btn-close {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 !important;
+            padding: 0;
+            border-radius: $yh-radius-ctl-sm;
+            color: $yh-muted;
+            opacity: 1;
+
+            &:hover {
+                background-color: $yh-blue-tint;
+                color: $yh-blue;
+            }
+        }
+
+        .btn-close {
+            background-size: 12px;
+        }
+    }
+
+    > .modal-body {
+        padding: 22px 24px 24px;
+    }
+
+    // form trong dialog (o_form_nosheet)
+    .modal-body .o_form_renderer {
+        padding: 22px 24px 24px;
+    }
+
+    .modal-body:has(> .o_form_renderer) {
+        padding: 0;
+    }
+
+    > .modal-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end !important;
+        gap: 10px !important;
+        padding: 16px 24px;
+        border-top: 1px solid $yh-border;
+        background: $yh-surface-2;
+
+        > * {
+            margin: 0;
+        }
+
+        .btn {
+            min-height: $yh-tap;
+            padding: 0 18px;
+            border-radius: $yh-radius-ctl;
+            font-weight: 700;
+        }
+
+        // Hủy bỏ: dạng chữ, căn trái
+        .btn-secondary:is(.o_form_button_cancel, [special="cancel"]),
+        .o_form_button_cancel {
+            order: -1;
+            margin-right: auto;
+            border: 0;
+            background: transparent;
+            color: $yh-text-2;
+            font-weight: 600;
+
+            &:hover {
+                background: $yh-bg;
+                color: $yh-ink;
+            }
+        }
+
+        // Lưu & Tạo mới: viền xanh
+        .o_form_button_save_new {
+            order: 1;
+            border: 1.5px solid $yh-blue;
+            background: $yh-surface;
+            color: $yh-blue-ink;
+            box-shadow: none;
+
+            &:hover {
+                background: $yh-blue-tint;
+            }
+        }
+
+        // Lưu & Đóng: nền xanh có glow, đứng cuối
+        .o_form_button_save {
+            order: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 20px;
+
+            &::before {
+                content: "\f00c"; // fa-check
+                font: normal normal normal 14px/1 FontAwesome;
+            }
+        }
+
+        // custom_save_button chèn thêm nhãn "Lưu" vào nút save của dialog
+        // ("Lưu & Đóng Lưu"); trong dialog chữ gốc đã đủ nghĩa nên ẩn nhãn thừa.
+        .custom-save-button .csb-label {
+            display: none;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .o_dialog .modal-content > .modal-footer .o_form_button_cancel {
+        margin-right: 0;
+    }
+}

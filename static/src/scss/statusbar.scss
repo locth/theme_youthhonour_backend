@@ -1,0 +1,281 @@
+// ============================================================================
+// Statusbar dạng stepper (README §4 "Statusbar")
+//
+// Lưu ý cấu trúc Odoo 18: các bước được render NGƯỢC trong DOM (inline.reverse())
+// rồi hiển thị bằng `flex-flow: row-reverse`. Vì vậy:
+//   - bước ĐÃ XONG (bên trái bước hiện tại) = phần tử đứng SAU .o_arrow_button_current trong DOM
+//   - "Không đạt" ([data-value="rejected"]) đứng ĐẦU DOM = ngoài cùng bên phải
+// ============================================================================
+
+$-yh-step-gap: 40px; // khoảng cách giữa 2 bước, chứa vạch nối 28px
+
+.o_action_manager .o_form_view .o_form_statusbar {
+    @include yh-card;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 18px;
+    margin: 0 0 18px !important;
+    padding: 18px 24px !important;
+
+    // Nút hành động: một hàng riêng phía trên stepper
+    > .o_statusbar_buttons {
+        flex: 1 1 100%;
+        gap: 8px !important;
+
+        &:not(:has(> :not(.d-none))) {
+            display: none !important;
+        }
+    }
+
+    > .o_field_statusbar {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+}
+
+.o_form_view .o_form_statusbar .o_field_statusbar > .o_statusbar_status {
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: flex-end; // row-reverse: flex-end = bên trái
+    margin-left: 0;
+    column-gap: $-yh-step-gap;
+    row-gap: 12px;
+
+    > .o_arrow_button:not(.d-none) {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        flex: none !important;
+        box-sizing: border-box;
+        // MỌI bước phải cao bằng nhau: Odoo coi statusbar "bị tràn dòng" khi chiều cao
+        // vùng chứa > chiều cao phần tử đầu tiên, và khi đó gom hết bước vào dropdown.
+        height: 40px;
+        margin: 0 !important;
+        padding: 0 4px 0 0 !important;
+        border: 0;
+        border-radius: 999px !important;
+        background: transparent !important;
+        clip-path: none;
+        color: $yh-muted;
+        font-size: 14px;
+        font-weight: 600;
+        white-space: nowrap;
+        box-shadow: none;
+        opacity: 1;
+
+        // chấm tròn 28px (tái dùng ::before của Odoo, bỏ hình mũi tên)
+        &::before {
+            content: "";
+            position: static;
+            inset: auto;
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border: 2px solid $yh-border;
+            border-radius: 999px !important;
+            background: $yh-surface;
+            clip-path: none;
+            color: #FFFFFF;
+            font: normal normal normal 13px/1 FontAwesome;
+        }
+
+        // vạch nối 2px tới bước kế tiếp (nằm bên phải)
+        &:not(.dropdown-toggle)::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: calc(100% + 6px);
+            width: $-yh-step-gap - 12px;
+            height: 2px;
+            margin-top: -1px;
+            border-radius: 2px;
+            background: $yh-border;
+        }
+
+        &:disabled,
+        &:disabled:hover {
+            color: $yh-muted;
+            cursor: default;
+        }
+
+        &:not(:disabled):hover {
+            color: $yh-blue-ink;
+
+            &::before {
+                border-color: $yh-blue;
+            }
+        }
+    }
+
+    // Bước cuối cùng của luồng thường (ngay trước "Không đạt") và "Không đạt": không có vạch nối
+    > .o_arrow_button.o_first::after,
+    > .o_arrow_button[data-value="rejected"]::after,
+    > .o_arrow_button[data-value="rejected"] + .o_arrow_button::after {
+        content: none !important;
+    }
+
+    // --- Bước đã xong: chấm xanh lá có ✓, vạch xanh lá --------------------------
+    > .o_arrow_button_current ~ .o_arrow_button:not(.d-none):not(.dropdown-toggle) {
+        color: $yh-text-2 !important;
+
+        &::before {
+            content: "\f00c"; // fa-check
+            border-color: $yh-green;
+            background: $yh-green;
+        }
+
+        &::after {
+            background: $yh-green;
+        }
+    }
+
+    // vạch dẫn vào bước hiện tại: xanh dương, glow
+    > .o_arrow_button_current + .o_arrow_button:not(.d-none)::after {
+        background: $yh-blue;
+        box-shadow: yh-glow-line(30, 94, 240);
+    }
+
+    // --- Bước hiện tại: pill xanh, chữ trắng 700, chấm trắng có ngôi sao ------------
+    > .o_arrow_button.o_arrow_button_current:not(.d-none) {
+        padding: 0 14px 0 6px !important;
+        background: $yh-blue !important;
+        color: #FFFFFF !important;
+        font-weight: 700;
+        box-shadow: yh-glow-blue();
+
+        &::before {
+            content: "\f005"; // fa-star
+            border: 0;
+            background: #FFFFFF;
+            color: $yh-blue;
+        }
+
+        &::after {
+            left: calc(100% + 6px);
+        }
+    }
+
+    // --- "Không đạt": tách sang phải, pill viền đỏ nét đứt ---------------------------
+    > .o_arrow_button[data-value="rejected"]:not(.d-none) {
+        margin-left: auto !important;
+        padding: 0 12px !important;
+        border: 1.5px dashed $yh-red-border;
+        color: $yh-red-ink !important;
+        font-size: 13px;
+
+        &::before {
+            content: "\f00d"; // fa-times
+            width: auto;
+            height: auto;
+            border: 0;
+            background: transparent;
+            color: $yh-red-ink;
+        }
+
+        &.o_arrow_button_current {
+            border: 0;
+            background: $yh-red !important;
+            color: #FFFFFF !important;
+            box-shadow: 0 10px 24px -8px rgba(220, 38, 38, yh-a(.9)), 0 0 0 4px rgba(220, 38, 38, yh-a(.14));
+
+            &::before {
+                color: #FFFFFF;
+            }
+        }
+    }
+
+    // Khi hồ sơ "Không đạt": các bước khác không được coi là đã xong
+    &:has(> [data-value="rejected"].o_arrow_button_current) > .o_arrow_button:not(.o_arrow_button_current):not(.d-none) {
+        color: $yh-muted !important;
+
+        &::before {
+            content: "";
+            border-color: $yh-border;
+            background: $yh-surface;
+        }
+
+        &::after {
+            background: $yh-border;
+            box-shadow: none;
+        }
+    }
+
+    // Màn hẹp: Odoo chỉ hiện bước hiện tại dạng dropdown -> pill xanh như bước hiện tại
+    > .dropdown-toggle:not(.o_arrow_button):not(.d-none) {
+        height: 40px;
+        margin: 0 !important;
+        padding: 0 14px !important;
+        border: 0;
+        border-radius: 999px !important;
+        background: $yh-blue !important;
+        color: #FFFFFF !important;
+        font-weight: 700;
+        opacity: 1;
+        box-shadow: yh-glow-blue();
+    }
+
+    // Nút "..." gom các bước ẩn (màn hẹp)
+    > .dropdown-toggle.o_arrow_button:not(.d-none) {
+        height: 40px;
+        padding: 0 12px !important;
+        border: 1px solid $yh-border;
+        border-radius: 999px !important;
+        background: $yh-surface !important;
+        color: $yh-text-2;
+        clip-path: none;
+        margin: 0 !important;
+
+        &::before {
+            content: none;
+        }
+    }
+}
+
+// --- Nút trên statusbar ---------------------------------------------------------
+.o_form_view .o_form_statusbar .o_statusbar_buttons .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: $yh-tap;
+    padding: 0 16px;
+    border-radius: $yh-radius-ctl;
+    font-weight: 700;
+
+    // Hoàn tác / Loại: viền đỏ, chữ đỏ, có icon
+    &:is([name^="action_undo_"], [name="action_reject"]) {
+        border: 1.5px solid $yh-red-border;
+        background: $yh-surface;
+        color: $yh-red-ink;
+        box-shadow: none;
+
+        &::before {
+            font: normal normal normal 14px/1 FontAwesome;
+        }
+
+        &:hover,
+        &:focus-visible {
+            border-color: $yh-red;
+            background: $yh-red-tint;
+            color: $yh-red-ink;
+        }
+    }
+
+    &[name^="action_undo_"]::before {
+        content: "\f0e2"; // fa-undo
+    }
+
+    &[name="action_reject"]::before {
+        content: "\f05e"; // fa-ban
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .o_action_manager .o_form_view .o_form_statusbar {
+        padding: 14px 16px !important;
+    }
+}

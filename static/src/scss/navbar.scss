@@ -1,0 +1,230 @@
+// ============================================================================
+// Navbar trắng (README §4 "Navbar")
+// ============================================================================
+
+// muk_web_theme ẩn viền dưới bằng `border-bottom: none !important`
+.o_web_client .o_main_navbar {
+    border-bottom: 1px solid $yh-border !important;
+}
+
+.o_main_navbar {
+    --o-navbar-badge-bg: #{$yh-orange};
+    --o-navbar-badge-color: #{$yh-orange-on};
+    --o-navbar-badge-text-shadow: none;
+    // màu icon app trên navbar, đổi theo app (xem cuối file)
+    --yh-app-color: #{$yh-blue};
+    --yh-app-on: #FFFFFF;
+    --yh-app-glow: #{yh-glow-blue()};
+    --yh-app-glyph: "\f2c2"; // fa-id-card-o
+    --yh-app-tint: #{$yh-blue-tint};
+    --yh-app-ink: #{$yh-blue-ink};
+
+    align-items: center;
+    gap: 4px;
+    padding: 10px 24px;
+    background: $yh-surface;
+
+    // Nút mở danh sách ứng dụng (MuK thay dropdown của Odoo bằng AppsMenu)
+    .o_navbar_apps_menu {
+        margin-right: 8px;
+
+        > .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: $yh-tap;
+            height: $yh-tap;
+            padding: 0;
+            border: 0;
+            border-radius: $yh-radius-ctl;
+            background: $yh-bg;
+            color: $yh-ink;
+            font-size: 18px;
+
+            &:hover,
+            &:focus-visible,
+            &.show {
+                background: $yh-blue-tint;
+                color: $yh-blue;
+            }
+        }
+    }
+
+    // Tiêu đề app: ô icon 32×32 + chữ 18px/700
+    .o_menu_brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-right: 20px;
+        padding: 0;
+        background: none;
+        color: $yh-ink;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -.01em;
+
+        &::before {
+            @include yh-icon-tile(32px, 10px, var(--yh-app-color), var(--yh-app-on), var(--yh-app-glyph), 16px);
+            box-shadow: var(--yh-app-glow);
+        }
+
+        &:hover,
+        &:focus {
+            background: none;
+            color: $yh-ink;
+        }
+    }
+
+    // Menu của app
+    .o_menu_sections {
+        gap: 4px;
+        align-items: center;
+
+        .o_nav_entry,
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            min-height: $yh-tap;
+            height: auto;
+            padding: 10px 14px;
+            border: 0;
+            border-radius: $yh-radius-ctl-sm;
+            background: transparent;
+            color: $yh-text-2;
+            font-size: 14px;
+            font-weight: 500;
+
+            &:hover,
+            &:focus-visible {
+                background: var(--yh-app-tint);
+                color: var(--yh-app-ink);
+            }
+        }
+
+        .dropdown.show.dropdown-toggle,
+        .dropdown-toggle.show {
+            background: var(--yh-app-tint);
+            color: var(--yh-app-ink);
+            font-weight: 600;
+        }
+    }
+
+    // Systray: icon 44×44, màu text-secondary
+    .o_menu_systray {
+        align-items: center;
+        gap: 8px;
+
+        > div > .dropdown-toggle,
+        > .dropdown-toggle,
+        > div > button:not(.o_mobile_menu_toggle) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: $yh-tap;
+            height: $yh-tap;
+            padding: 0 10px;
+            border: 0;
+            border-radius: $yh-radius-ctl;
+            background: transparent;
+            color: $yh-text-2;
+
+            &:hover,
+            &.show {
+                background: $yh-blue-tint;
+                color: $yh-blue;
+            }
+        }
+
+        // Badge số tin nhắn: nền cam, chữ tối, glow
+        .badge {
+            min-width: 18px;
+            height: 18px;
+            padding: 0 5px;
+            border-radius: 999px;
+            background-color: $yh-orange !important;
+            color: $yh-orange-on !important;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 18px;
+            box-shadow: yh-glow-orange-sm();
+        }
+
+        // Tên công ty dạng chip có viền
+        .o_switch_company_menu > .dropdown-toggle {
+            gap: 8px;
+            height: $yh-tap !important;
+            min-height: 0;
+            padding: 0 12px;
+            border: 1px solid $yh-border;
+            color: $yh-text-2;
+            font-weight: 500;
+            opacity: 1; // nút bị disabled khi chỉ có 1 công ty
+
+            &::before {
+                content: "\f1ad"; // fa-building
+                font: normal normal normal 16px/1 FontAwesome;
+                color: $yh-text-2;
+            }
+
+            .fa-building {
+                display: none;
+            }
+        }
+
+        // Avatar tròn 40px có vòng cam 2px
+        .o_user_menu > .dropdown-toggle {
+            padding: 0 2px;
+
+            .o_user_avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 999px !important;
+                border: 2px solid $yh-surface;
+                box-shadow: 0 0 0 2px $yh-orange;
+                object-fit: cover;
+            }
+
+            &:hover {
+                background: transparent;
+            }
+        }
+    }
+}
+
+// --- Màu riêng theo app --------------------------------------------------------
+// Sinh viên 5 tốt: cam
+.o_main_navbar:has(.o_menu_brand[data-menu-xmlid="honour_vnuhcm.menu_sv5t_root"]) {
+    --yh-app-color: #{$yh-orange};
+    --yh-app-on: #{$yh-orange-on};
+    --yh-app-glow: #{yh-glow-orange()};
+    --yh-app-glyph: "\f005"; // fa-star
+    --yh-app-tint: #{$yh-orange-tint};
+    --yh-app-ink: #{$yh-orange-ink};
+}
+
+// Cán bộ trẻ Tiêu biểu: xanh lá
+.o_main_navbar:has(.o_menu_brand[data-menu-xmlid="honour_vnuhcm.menu_cbttb_root"]) {
+    --yh-app-color: #{$yh-green};
+    --yh-app-on: #FFFFFF;
+    --yh-app-glow: 0 10px 24px -8px rgba(22, 163, 74, #{yh-a(.9)}), 0 0 0 4px rgba(22, 163, 74, #{yh-a(.14)});
+    --yh-app-glyph: "\f091"; // fa-trophy
+    --yh-app-tint: #{$yh-green-tint};
+    --yh-app-ink: #{$yh-green-ink};
+}
+
+// Các app chuẩn của Odoo (Ứng dụng, Cài đặt): icon bánh răng
+.o_main_navbar:has(.o_menu_brand[data-menu-xmlid^="base."]) {
+    --yh-app-glyph: "\f013"; // fa-cog
+}
+
+// Màn hẹp: giảm padding để không tràn
+@include media-breakpoint-down(md) {
+    .o_main_navbar {
+        padding: 10px 12px;
+
+        .o_menu_brand {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+    }
+}

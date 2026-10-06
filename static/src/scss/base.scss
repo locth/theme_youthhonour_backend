@@ -1,0 +1,38 @@
+// ============================================================================
+// Nền webclient, font và banner "DB neutralized"
+// ============================================================================
+
+.o_web_client {
+    background-color: $yh-bg;
+    color: $yh-ink-2;
+    font-family: $o-font-family-sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.o_action_manager,
+.o_action_manager > .o_action,
+.o_view_controller > .o_content {
+    background-color: $yh-bg;
+}
+
+// Số liệu: mã số, số điện thoại, pager
+.o_pager_counter,
+.o_list_number,
+.o_data_cell[name="nominee_id"],
+.o_data_cell[name="phone"],
+.o_field_widget[name="nominee_id"],
+.o_field_widget[name="phone"],
+.o_field_widget[name="citizen_id"] {
+    font-variant-numeric: tabular-nums;
+}
+
+// Banner cảnh báo DB neutralize: style inline của web.neutralize_banner nên cần !important
+#oe_neutralize_banner {
+    background-color: $yh-banner-red !important;
+    color: #FFFFFF !important;
+    font-family: $o-font-family-sans-serif;
+    font-size: 12.5px !important;
+    font-weight: 500;
+    padding: 6px 16px;
+    line-height: 1.4;
+}

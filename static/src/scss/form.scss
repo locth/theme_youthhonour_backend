@@ -1,0 +1,390 @@
+// ============================================================================
+// Form view: sheet trong suốt, các khối là thẻ trắng; label nằm trên input;
+// input cao 44px, focus có glow.
+// ============================================================================
+
+// --- Khung: sheet trong suốt, khối con trực tiếp của sheet thành thẻ -----------
+.o_action_manager .o_form_view {
+    .o_form_sheet_bg {
+        --formView-sheetBg-padding-x: 28px;
+        padding: 0 28px 40px;
+        background: $yh-bg;
+    }
+
+    .o_form_sheet {
+        margin: 0 auto;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+
+        > .o_group,
+        > .o_inner_group,
+        > .o_notebook,
+        > .oe_title {
+            @include yh-card;
+            margin: 0 0 18px !important;
+            padding: 22px 24px 26px;
+            --gutter-x: 24px;
+        }
+
+        > .o_group {
+            row-gap: 18px;
+        }
+    }
+}
+
+// --- Tiêu đề khối (separator) --------------------------------------------------
+.o_form_view .o_horizontal_separator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 18px !important;
+    padding: 0;
+    border: 0;
+    box-shadow: none !important;
+    color: $yh-ink;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0;
+    // Bỏ class text-uppercase của Odoo. Form hồ sơ người dùng vẫn viết hoa vì chuỗi trong XML là chữ hoa.
+    text-transform: none !important;
+
+    &::before {
+        @include yh-icon-tile(32px, 10px, $yh-blue-tint, $yh-blue, "\f03a", 15px); // fa-list
+    }
+}
+
+// Màu ô icon theo vị trí thẻ: tài khoản = xanh dương, cá nhân = cam, liên hệ = xanh lá
+.o_form_sheet > :nth-child(1) .o_horizontal_separator::before {
+    content: "\f007"; // fa-user
+}
+.o_form_sheet > :nth-child(2) .o_horizontal_separator::before {
+    content: "\f2c2"; // fa-id-card-o
+    background: $yh-orange-tint;
+    color: #C2510A;
+}
+.o_form_sheet > :nth-child(3) .o_horizontal_separator::before {
+    content: "\f041"; // fa-map-marker
+    background: $yh-green-tint;
+    color: $yh-green-ink;
+}
+// Nhóm nhận xét (SV5T/CBTTB): xanh lá, icon bình luận
+.o_form_sheet .o_inner_group:has(.o_field_widget[name="vnu_comment"]) .o_horizontal_separator::before {
+    content: "\f0e5"; // fa-comment-o
+    background: $yh-green-tint;
+    color: $yh-green-ink;
+}
+// Khối tiêu chí có notebook: icon danh sách việc
+.o_form_sheet > .o_inner_group:has(.o_notebook) .o_horizontal_separator::before {
+    content: "\f0ae"; // fa-tasks
+    background: $yh-blue-tint;
+    color: $yh-blue;
+}
+
+// --- Label nằm trên input ------------------------------------------------------
+.o_form_view .o_inner_group.grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 16px !important; // Odoo đặt gap 0 ở màn hẹp
+
+    > .o_wrap_field {
+        display: flex !important;
+        flex-direction: column;
+        gap: 6px;
+        margin: 0 !important;
+        min-width: 0;
+
+        > .o_cell {
+            width: 100%;
+            min-width: 0;
+            padding: 0 !important;
+        }
+
+        > .o_wrap_label {
+            .o_form_label {
+                margin: 0;
+                color: $yh-muted;
+                font-size: 12.5px;
+                font-weight: 600;
+                transition: color .15s;
+            }
+        }
+
+        &:focus-within > .o_wrap_label .o_form_label {
+            color: $yh-blue-ink;
+        }
+
+        // Boolean: ô tích + label trên cùng một dòng
+        > .o_wrap_field_boolean {
+            display: flex !important;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+
+            > .o_cell {
+                width: auto;
+                padding: 0 !important;
+            }
+
+            .o_form_label {
+                color: $yh-text-2;
+                font-size: 14px;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+// --- Input -----------------------------------------------------------------------
+$-yh-boxed-fields: ".o_field_char, .o_field_text, .o_field_selection, .o_field_many2one, .o_field_date, .o_field_datetime, .o_field_integer, .o_field_float, .o_field_monetary, .o_field_email, .o_field_phone, .o_field_url, .o_field_many2one_avatar";
+
+.o_form_view .o_inner_group .o_field_widget:is(#{$-yh-boxed-fields}) {
+    width: 100%;
+
+    .o_input {
+        min-height: $yh-tap;
+        padding: 0 14px;
+        border: 1px solid $yh-border;
+        border-radius: $yh-radius-ctl;
+        background-color: $yh-input-bg;
+        color: $yh-ink;
+        font-size: 14px;
+        font-weight: 500;
+        transition: border-color .15s, box-shadow .15s, background-color .15s;
+
+        &:hover {
+            border-color: $yh-border-strong;
+        }
+
+        &:focus,
+        &:focus-within {
+            @include yh-glow-focus;
+            background-color: $yh-surface;
+            outline: 0;
+        }
+
+        &::placeholder {
+            color: mix($yh-muted, $yh-surface, 70%);
+            font-weight: 400;
+        }
+    }
+
+    textarea.o_input {
+        padding: 11px 14px;
+        line-height: 1.5;
+    }
+
+    select.o_input {
+        padding-right: 36px;
+    }
+
+    // many2one: nút mũi tên nằm trong ô
+    .o_input_dropdown {
+        position: relative;
+        width: 100%;
+
+        .o_dropdown_button {
+            right: 14px;
+        }
+    }
+
+    &.o_field_invalid .o_input {
+        border-color: $yh-red;
+        background-color: $yh-red-tint;
+    }
+
+    // Field chỉ đọc: viền nét đứt, nền bg
+    &.o_readonly_modifier {
+        display: flex;
+        flex-direction: row; // .o_field_widget của Odoo là flex-column
+        align-items: center;
+        min-height: $yh-tap;
+        padding: 10px 14px;
+        border: 1px dashed $yh-border-readonly;
+        border-radius: $yh-radius-ctl;
+        background: $yh-bg;
+        color: $yh-text-2;
+        font-weight: 500;
+        justify-content: flex-start;
+        text-align: left;
+
+        > a,
+        > span {
+            min-width: 0;
+            text-align: left;
+        }
+
+        &.o_field_text {
+            align-items: flex-start;
+            white-space: pre-wrap;
+        }
+    }
+}
+
+// Trong bảng/one2many/list editable: giữ input gọn như cũ
+.o_form_view .o_list_renderer .o_field_widget .o_input {
+    min-height: 0;
+    border-radius: 6px;
+}
+
+// --- Phần đầu form: tên 30px/800, ảnh đại diện có vòng glow -------------------
+.o_form_view .oe_title {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 14px;
+
+    h1 {
+        margin-bottom: 8px;
+
+        .o_input,
+        .o_field_widget > span {
+            padding: 2px 0;
+            border: 0;
+            border-bottom: 1px solid transparent;
+            border-radius: 0;
+            background: transparent;
+            color: $yh-ink;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -.02em;
+
+            &:hover {
+                border-bottom-color: $yh-border-strong;
+            }
+
+            &:focus {
+                border-bottom-color: $yh-blue;
+                box-shadow: none;
+            }
+        }
+    }
+
+    h3 {
+        color: $yh-text-2;
+        font-size: 15px;
+        font-weight: 500;
+
+        .o_input {
+            border: 0;
+            border-bottom: 1px solid transparent;
+            background: transparent;
+            color: $yh-text-2;
+            font-size: 15px;
+            font-weight: 500;
+
+            &:focus {
+                border-bottom-color: $yh-blue;
+                box-shadow: none;
+            }
+        }
+    }
+
+    // Đơn vị dưới tên: icon tòa nhà xanh
+    h3:has(.o_field_widget[name="unit_id"]) {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        &::before {
+            content: "\f1ad"; // fa-building
+            flex: none;
+            color: $yh-blue;
+            font: normal normal normal 17px/1 FontAwesome;
+        }
+
+        > .o_field_widget {
+            flex: 1 1 auto;
+        }
+    }
+}
+
+.o_form_view .o_form_sheet .o_field_image:is(.oe_avatar, .avatar-form) {
+    padding: 8px;
+
+    img {
+        width: 128px !important;
+        height: 128px !important;
+        max-width: none;
+        border: 4px solid $yh-surface;
+        border-radius: 28px !important;
+        object-fit: cover !important;
+        box-shadow: yh-glow-ring();
+    }
+
+    // nút sửa/xóa ảnh: tròn, nền cam
+    .o_select_file_button,
+    .o_clear_file_button {
+        width: 36px;
+        height: 36px;
+        border: 3px solid $yh-surface !important;
+        background: $yh-orange !important;
+        color: $yh-orange-on !important;
+        box-shadow: yh-glow-orange-sm();
+    }
+
+    .o_clear_file_button {
+        background: $yh-surface !important;
+        color: $yh-red !important;
+        border-color: $yh-red-border !important;
+    }
+}
+
+// --- Thông báo chữ đỏ inline trong view hồ sơ -> hộp thông báo cam ---------------
+// (view hiện viết <p style="color: red">; khi đổi markup ở Phase 2 thì bỏ khối này)
+.o_form_view p[style*="color: red"],
+.o_form_view p[style*="color:red"] {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 4px 0 0;
+    padding: 14px 16px 14px 14px;
+    border: 1px solid $yh-orange-alert-border;
+    border-radius: 16px;
+    background: $yh-orange-alert-bg;
+    color: $yh-orange-alert-text !important;
+    font-weight: 600 !important;
+
+    &::before {
+        @include yh-icon-tile(36px, 10px, $yh-orange, $yh-orange-on, "\f05a", 16px); // fa-info-circle
+        box-shadow: yh-glow-orange-sm();
+    }
+}
+
+// --- Hướng dẫn dạng <li> trong khối tiêu chí: hộp xanh nhạt -----------------------
+.o_form_view .o_inner_group > .o_wrap_field > .o_cell > div:has(> li) {
+    padding: 18px 20px 18px 38px !important;
+    border: 1px solid $yh-blue-tint-2;
+    border-radius: $yh-radius-card;
+    background: $yh-blue-tint;
+    color: $yh-ink-2;
+    line-height: 1.55;
+
+    li {
+        margin: 2px 0;
+    }
+
+    a {
+        font-weight: 700;
+        text-decoration: underline;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .o_action_manager .o_form_view {
+        .o_form_sheet_bg {
+            padding: 0 16px 24px;
+        }
+
+        .o_form_sheet > .o_group,
+        .o_form_sheet > .o_inner_group,
+        .o_form_sheet > .o_notebook {
+            padding: 18px 16px 20px;
+        }
+    }
+
+    .o_form_view .oe_title h1 :is(.o_input, .o_field_widget > span) {
+        font-size: 24px;
+    }
+}

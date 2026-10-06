@@ -1,0 +1,134 @@
+// ============================================================================
+// List view: bảng nằm trong thẻ trắng bo 18px, header viết hoa nhỏ, hover nhẹ
+// ============================================================================
+
+// Chung cho list chính và list one2many trong form
+.o_list_renderer {
+    --table-hover-bg: #{$yh-surface-2};
+    --table-striped-bg: transparent;
+    --table-border-color: #{$yh-border-soft};
+    --bs-table-hover-bg: #{$yh-surface-2};
+    --bs-table-striped-bg: transparent;
+    --bs-table-border-color: #{$yh-border-soft};
+
+    .o_list_table {
+        color: $yh-ink;
+
+        thead th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: $yh-surface-2 !important;
+            border-bottom: 1px solid $yh-border !important;
+            color: $yh-muted-2;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        > tbody > tr > td,
+        > tbody > tr > th {
+            border-color: $yh-border-soft;
+        }
+
+        .o_data_row {
+            > td {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                vertical-align: middle;
+                box-shadow: none !important; // bỏ nền sọc của .table-striped
+            }
+
+            &:hover > td {
+                background-color: $yh-surface-2;
+            }
+        }
+
+        // Checkbox chọn dòng
+        .o_list_record_selector .form-check-input {
+            accent-color: $yh-blue;
+        }
+
+        tfoot {
+            background: $yh-surface;
+            color: $yh-muted;
+        }
+    }
+
+    // Avatar trong list: tròn 40px (thắng .avatar-list của honour_vnuhcm/sv5t_style.scss)
+    .o_data_cell.o_image_cell .o_field_image img {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 999px !important;
+        object-fit: cover !important;
+        box-shadow: 0 0 0 1px $yh-border;
+    }
+}
+
+// List chính của một action: bọc trong thẻ
+.o_view_controller.o_list_view > .o_content {
+    padding: 0 28px 40px;
+
+    > .o_list_renderer {
+        flex: 0 1 auto !important;
+        height: auto;
+        max-height: 100%;
+        background: $yh-surface;
+        border: 1px solid $yh-border;
+        border-radius: $yh-radius-card;
+        box-shadow: $yh-shadow-card;
+    }
+
+    .o_list_table {
+        margin-bottom: 0;
+
+        thead th:first-child {
+            padding-left: 20px;
+        }
+
+        .o_data_row > td:first-child,
+        .o_group_header > th:first-child {
+            padding-left: 20px;
+        }
+    }
+}
+
+// --- Dòng nhóm (group by) ------------------------------------------------------
+.o_list_renderer .o_list_table .o_group_header {
+    > th,
+    > td {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-top: 1px solid $yh-border-soft;
+        background: $yh-surface !important;
+    }
+
+    &:hover > th,
+    &:hover > td {
+        background: $yh-surface-2 !important;
+    }
+
+    .o_group_name {
+        color: $yh-ink !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+    }
+
+    .o_group_caret {
+        width: 20px;
+        color: $yh-muted-2;
+        // fa-caret-* -> chevron nét mảnh hơn
+        &.fa-caret-right::before { content: "\f054"; font-size: 11px; }
+        &.fa-caret-down::before { content: "\f078"; font-size: 11px; }
+    }
+
+    &.o_group_open .o_group_name {
+        color: $yh-blue-ink !important;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .o_view_controller.o_list_view > .o_content {
+        padding: 0 16px 24px;
+    }
+}

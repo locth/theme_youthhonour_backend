@@ -1,0 +1,131 @@
+// ============================================================================
+// YouthHonour — design tokens (README §3)
+// Nạp trong web._assets_primary_variables nên mọi file SCSS backend đều dùng được.
+// ============================================================================
+
+// Độ mạnh glow, khoảng 0–1. Đổi ở đây thì MỌI glow thay đổi theo (0 = tắt glow).
+$yh-glow: .6 !default;
+
+// --- Màu ---------------------------------------------------------------------
+$yh-bg: #F3F6FB;
+$yh-surface: #FFFFFF;
+$yh-surface-2: #F7F9FE;
+$yh-input-bg: #FBFCFE;
+$yh-border: #E4E9F2;
+$yh-border-soft: #EEF1F7;
+$yh-border-strong: #B8C3D9;
+$yh-border-readonly: #D5DCE8;
+
+$yh-ink: #0E1A33;
+$yh-ink-2: #26324B;
+$yh-text-2: #3A465E;
+$yh-muted: #56627A;
+$yh-muted-2: #6A7590;
+
+$yh-blue: #1E5EF0;
+$yh-blue-ink: #1747C9;
+$yh-blue-tint: #EEF3FF;
+$yh-blue-tint-2: #D9E3FF;
+
+$yh-orange: #FF7A1A;
+$yh-orange-on: #1A1206;   // chữ trên nền cam (không dùng chữ trắng)
+$yh-orange-ink: #A8440A;
+$yh-orange-tint: #FFF1E6;
+$yh-orange-alert-bg: #FFF6EE;
+$yh-orange-alert-border: #FFD3B0;
+$yh-orange-alert-text: #6B2E07;
+
+$yh-green: #16A34A;
+$yh-green-ink: #13753A;
+$yh-green-tint: #E7F8EE;
+
+$yh-red: #DC2626;
+$yh-red-ink: #B11F1F;
+$yh-red-tint: #FDECEC;
+$yh-red-border: #F2B8B8;
+$yh-banner-red: #B91C1C;
+
+$yh-switch-off: #CBD3E1;
+
+// --- Chữ -----------------------------------------------------------------------
+$yh-font-family: ("Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+
+// --- Hình khối -----------------------------------------------------------------
+$yh-radius-card-lg: 20px;
+$yh-radius-card: 18px;
+$yh-radius-dialog: 24px;
+$yh-radius-ctl: 12px;
+$yh-radius-ctl-sm: 10px;
+$yh-tap: 44px;
+$yh-shadow-card: 0 1px 2px rgba(14, 26, 51, .04), 0 12px 32px -18px rgba(14, 26, 51, .18);
+
+// --- Glow (README §3.4) — mọi alpha nhân với $yh-glow --------------------------
+@function yh-a($a) {
+    @return $a * $yh-glow;
+}
+
+@function yh-glow-blue() {
+    @return 0 10px 24px -8px rgba(30, 94, 240, yh-a(.9)), 0 0 0 4px rgba(30, 94, 240, yh-a(.14));
+}
+@function yh-glow-blue-soft() {
+    @return 0 0 0 4px rgba(30, 94, 240, yh-a(.16)), 0 8px 28px -10px rgba(30, 94, 240, yh-a(.6));
+}
+@function yh-glow-orange() {
+    @return 0 10px 26px -8px rgba(255, 122, 26, yh-a(1)), 0 0 0 4px rgba(255, 122, 26, yh-a(.18));
+}
+@function yh-glow-orange-sm() {
+    @return 0 0 10px rgba(255, 122, 26, yh-a(.9));
+}
+@function yh-glow-green() {
+    @return 0 0 0 4px rgba(22, 163, 74, yh-a(.16)), 0 0 16px rgba(22, 163, 74, yh-a(.7));
+}
+// Chấm trạng thái nhỏ (pill): $rgb dạng "22, 163, 74"
+@function yh-glow-dot($r, $g, $b) {
+    @return 0 0 8px rgba($r, $g, $b, yh-a(1));
+}
+@function yh-glow-ring() {
+    @return 0 0 0 3px $yh-blue, 0 0 32px 4px rgba(30, 94, 240, yh-a(.55));
+}
+@function yh-glow-modal() {
+    @return 0 30px 80px -20px rgba(14, 26, 51, .55), 0 0 0 1px rgba(30, 94, 240, yh-a(.25)), 0 0 60px -10px rgba(30, 94, 240, yh-a(.55));
+}
+@function yh-glow-line($r, $g, $b) {
+    @return 0 0 10px rgba($r, $g, $b, yh-a(1));
+}
+// Glow nhẹ cho gạch chân tab và icon tab
+@function yh-glow-tab($color) {
+    @return inset 0 -3px 0 $color, 0 6px 16px -10px $color;
+}
+
+@mixin yh-glow-blue { box-shadow: yh-glow-blue(); }
+@mixin yh-glow-orange { box-shadow: yh-glow-orange(); }
+@mixin yh-glow-green { box-shadow: yh-glow-green(); }
+@mixin yh-glow-focus {
+    border-color: $yh-blue;
+    // viền 1.5px = viền 1px + 0.5px inset, để kích thước ô không nhảy khi focus
+    box-shadow: inset 0 0 0 .5px $yh-blue, yh-glow-blue-soft();
+}
+
+@mixin yh-card($radius: $yh-radius-card-lg) {
+    background: $yh-surface;
+    border: 1px solid $yh-border;
+    border-radius: $radius;
+    box-shadow: $yh-shadow-card;
+}
+
+// Ô icon vuông dùng Font Awesome 4.7 (có sẵn trong Odoo 18)
+@mixin yh-icon-tile($size, $radius, $bg, $color, $glyph, $font-size: 14px) {
+    content: $glyph;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $size;
+    height: $size;
+    border-radius: $radius;
+    background: $bg;
+    color: $color;
+    font: normal normal normal #{$font-size}/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+}

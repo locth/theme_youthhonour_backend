@@ -1,0 +1,49 @@
+// ============================================================================
+// Ghi đè biến Odoo/Bootstrap. File này được nạp SAU colors_light.scss của
+// muk_web_colors (bản tùy biến trong DB), và TRƯỚC web/primary_variables.scss.
+// Vì vậy ở đây là phép gán thường (không có !default) để thắng MuK.
+// ============================================================================
+
+// --- Màu thương hiệu ------------------------------------------------------------
+$o-community-color: $yh-blue;
+$o-enterprise-color: $yh-blue;
+$o-enterprise-action-color: $yh-blue;
+$o-brand-odoo: $yh-blue;
+$o-brand-primary: $yh-blue;
+$o-action: $yh-blue;
+
+$o-success: $yh-green;
+$o-info: $yh-blue;
+$o-warning: $yh-orange;
+$o-danger: $yh-red;
+
+$o-theme-text-colors: (
+    "primary": $yh-blue-ink,
+    "success": $yh-green-ink,
+    "info": $yh-blue-ink,
+    "warning": $yh-orange-ink,
+    "danger": $yh-red-ink,
+);
+
+// --- Nền, chữ -------------------------------------------------------------------
+$o-webclient-background-color: $yh-bg;
+$o-main-text-color: $yh-ink-2;
+$o-main-headings-color: $yh-ink;
+$o-main-link-color: $yh-blue-ink;
+
+$o-font-family-sans-serif: o-add-unicode-support-font($yh-font-family);
+$o-headings-font-family: o-add-unicode-support-font($yh-font-family);
+
+// --- Navbar (web/static/src/webclient/navbar/navbar.variables.scss) -------------
+$o-navbar-height: 64px;
+$o-navbar-background: $yh-surface;
+$o-navbar-border-bottom: 1px solid $yh-border;
+$o-navbar-entry-border-radius: $yh-radius-ctl-sm;
+$o-navbar-entry-color: $yh-text-2;
+$o-navbar-entry-color--hover: $yh-blue-ink;
+$o-navbar-entry-bg--hover: $yh-blue-tint;
+$o-navbar-entry-color--active: $yh-blue-ink;
+$o-navbar-entry-bg--active: $yh-blue-tint;
+$o-navbar-brand-color: $yh-ink;
+$o-navbar-badge-color: $yh-orange-on;
+$o-navbar-badge-text-shadow: none;

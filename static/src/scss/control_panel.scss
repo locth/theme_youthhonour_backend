@@ -1,0 +1,338 @@
+// ============================================================================
+// Control panel: nút "Mới", breadcrumb, ô tìm kiếm, pager
+// ============================================================================
+
+.o_action_manager .o_control_panel {
+    padding: 24px 28px 20px !important;
+    gap: 16px !important;
+    background: transparent;
+    border-bottom: 0;
+
+    .o_control_panel_main {
+        align-items: center !important;
+        column-gap: 20px !important;
+        row-gap: 16px !important;
+    }
+
+    .o_control_panel_breadcrumbs {
+        gap: 16px !important;
+    }
+
+    // --- Nút "Mới": cam, chữ tối, có icon + -----------------------------------
+    .o_control_panel_main_buttons {
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: $yh-tap;
+            padding: 0 18px;
+            border: 0;
+            border-radius: $yh-radius-ctl;
+            background: $yh-orange;
+            color: $yh-orange-on;
+            font-weight: 700;
+            box-shadow: yh-glow-orange();
+
+            &.o_list_button_add::before,
+            &.o-kanban-button-new::before {
+                content: "\f067"; // fa-plus
+                font: normal normal normal 14px/1 FontAwesome;
+            }
+
+            &:hover,
+            &:focus-visible {
+                background: darken($yh-orange, 6%);
+                color: $yh-orange-on;
+            }
+        }
+
+        // Trong form: "Mới" dạng viền cam
+        .o_form_button_create {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: $yh-tap;
+            padding: 0 16px;
+            border: 1.5px solid $yh-orange;
+            border-radius: $yh-radius-ctl;
+            background: $yh-surface;
+            color: $yh-orange-ink;
+            font-weight: 700;
+
+            &::before {
+                content: "\f067";
+                font: normal normal normal 13px/1 FontAwesome;
+            }
+
+            &:hover,
+            &:focus-visible {
+                background: $yh-orange-tint;
+                border-color: $yh-orange;
+                color: $yh-orange-ink;
+            }
+        }
+    }
+
+    // --- Breadcrumb ----------------------------------------------------------
+    .o_breadcrumb {
+        gap: 2px !important;
+
+        .breadcrumb {
+            margin: 0;
+            background: transparent;
+            font-size: 12.5px;
+
+            .breadcrumb-item a {
+                color: $yh-blue-ink;
+                font-weight: 600 !important;
+            }
+        }
+
+        .o_last_breadcrumb_item {
+            color: $yh-ink;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -.015em;
+
+            // View gốc (không có cha): 22px
+            &.fs-4 {
+                font-size: 22px !important;
+            }
+        }
+
+        .o_control_panel_breadcrumbs_actions .btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            color: $yh-muted;
+
+            &:hover {
+                background: $yh-blue-tint;
+                color: $yh-blue;
+            }
+        }
+    }
+
+    // --- Nút Lưu / Hủy thay đổi của form ------------------------------------
+    .o_form_status_indicator_buttons {
+        gap: 8px;
+
+        .o_form_button_save {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: $yh-tap;
+            padding: 0 20px !important;
+            border-radius: $yh-radius-ctl;
+            background: $yh-blue;
+            color: #FFFFFF;
+            font-weight: 700;
+            box-shadow: yh-glow-blue();
+
+            &:hover,
+            &:focus-visible {
+                background: $yh-blue-ink;
+                color: #FFFFFF;
+            }
+        }
+
+        .o_form_button_cancel {
+            height: $yh-tap;
+            min-width: $yh-tap;
+            padding: 0 12px !important;
+            border-radius: $yh-radius-ctl;
+            background: transparent;
+            color: $yh-text-2;
+
+            &:hover {
+                background: $yh-bg;
+            }
+        }
+    }
+
+    // --- Ô tìm kiếm: cao 48px, bo 14px, toggler nằm bên trong -----------------
+    .o_cp_searchview {
+        align-items: center;
+        flex-wrap: nowrap;
+        min-height: 48px;
+        padding: 0 6px 0 14px;
+        background: $yh-surface;
+        border: 1px solid $yh-border;
+        border-radius: 14px;
+        transition: border-color .15s, box-shadow .15s;
+
+        &:hover {
+            border-color: $yh-border-strong;
+        }
+
+        &:focus-within {
+            @include yh-glow-focus;
+        }
+
+        .o_searchview {
+            min-height: 44px;
+            padding: 4px 0 !important;
+            border: 0 !important;
+            background: transparent;
+            box-shadow: none !important;
+        }
+
+        .o_searchview_icon {
+            color: $yh-muted;
+            font-size: 16px;
+        }
+
+        .o_searchview_input {
+            background: transparent;
+            color: $yh-ink;
+            font-size: 14px;
+
+            &::placeholder {
+                color: $yh-muted;
+            }
+        }
+
+        .o_searchview_dropdown_toggler {
+            flex: none;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border: 0 !important;
+            border-radius: $yh-radius-ctl-sm !important;
+            background: $yh-bg;
+            color: $yh-text-2;
+
+            // caret tam giác của Odoo -> icon phễu lọc, căn giữa ô 36×36
+            &::after {
+                display: none !important;
+            }
+
+            &::before {
+                content: "\f0b0"; // fa-filter
+                font: normal normal normal 16px/1 FontAwesome;
+            }
+
+            &:hover,
+            &.show {
+                background: $yh-blue-tint;
+                color: $yh-blue;
+            }
+        }
+    }
+
+    // Facet "Nhóm theo · Đơn vị": chip nền xanh đặc, chữ trắng
+    .o_searchview_facet {
+        align-items: center !important;
+        min-height: 30px;
+        padding: 0 4px 0 8px;
+        border-radius: 8px !important;
+        background: $yh-blue !important;
+        color: #FFFFFF;
+
+        // lớp phủ trắng khi hover của Odoo sẽ che chữ trắng
+        > .position-absolute:first-child {
+            display: none;
+        }
+
+        &:hover {
+            background: $yh-blue-ink !important;
+        }
+
+        .o_searchview_facet_label {
+            padding: 0 2px 0 0 !important;
+            border: 0;
+            background: transparent !important;
+            color: #FFFFFF !important;
+        }
+
+        .o_facet_values {
+            padding-left: 4px !important;
+            gap: 4px;
+            color: #FFFFFF;
+            font-size: 13px;
+            font-weight: 600;
+
+            .o_facet_value {
+                font-size: 13px;
+            }
+        }
+
+        .o_facet_remove {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            padding: 0 !important;
+            margin-left: 4px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, .18);
+            color: #FFFFFF !important;
+            font-size: 11px;
+
+            &:hover {
+                background: rgba(255, 255, 255, .32);
+            }
+        }
+    }
+
+    // --- Pager: "1–9 / 9" + hai nút 40×40 ------------------------------------
+    .o_pager {
+        align-items: center;
+        gap: 6px !important;
+
+        .o_pager_counter {
+            padding-right: 4px;
+            color: $yh-muted;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .btn-group {
+            gap: 6px;
+        }
+
+        .o_pager_previous,
+        .o_pager_next {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            padding: 0 !important;
+            border: 1px solid $yh-border !important;
+            border-radius: $yh-radius-ctl-sm !important;
+            background: $yh-surface;
+            color: $yh-text-2;
+
+            &:hover:not(:disabled) {
+                background: $yh-blue-tint;
+                border-color: $yh-blue-tint-2 !important;
+                color: $yh-blue;
+            }
+
+            &:disabled {
+                opacity: .55;
+            }
+        }
+    }
+
+    // Nút chuyển view (list/kanban/…)
+    .o_cp_switch_buttons .btn {
+        height: 40px;
+        border-color: $yh-border;
+        background: $yh-surface;
+        color: $yh-text-2;
+
+        &.active {
+            background: $yh-blue-tint;
+            color: $yh-blue-ink;
+        }
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .o_action_manager .o_control_panel {
+        padding: 16px 16px 14px !important;
+    }
+}
