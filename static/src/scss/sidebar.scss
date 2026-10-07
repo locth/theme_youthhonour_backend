@@ -5,6 +5,7 @@
 
 .o_web_client {
     --yh-sidebar-width: 232px;
+    --yh-sidebar-gap: 16px; // khoảng cách sidebar nổi tới mép navbar/cửa sổ
 
     display: grid !important;
     grid-template-areas:
@@ -45,7 +46,8 @@
 // md: chỉ còn icon; < md: ẩn (dùng menu burger của Odoo); fullscreen/in: ẩn
 @include media-breakpoint-only(md) {
     .o_web_client {
-        --yh-sidebar-width: 84px;
+        --yh-sidebar-width: 76px;
+        --yh-sidebar-gap: 12px;
     }
 }
 
@@ -60,12 +62,17 @@
     --yh-sidebar-width: 0px;
 }
 
+// Sidebar nổi: thẻ bo góc tách khỏi navbar và mép cửa sổ
 .yh_sidebar {
     width: var(--yh-sidebar-width);
+    min-height: 0; // để overflow-y hoạt động trong ô grid 1fr
+    margin: var(--yh-sidebar-gap) 0 var(--yh-sidebar-gap) var(--yh-sidebar-gap);
     overflow-x: hidden;
     overflow-y: auto;
     background-color: $yh-surface;
-    border-right: 1px solid $yh-border;
+    border: 1px solid $yh-border-soft;
+    border-radius: $yh-radius-card-lg;
+    box-shadow: $yh-shadow-card;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
@@ -200,7 +207,7 @@ $-yh-sidebar-apps: (
 // Dạng chỉ có icon (md)
 @include media-breakpoint-only(md) {
     .yh_sidebar_inner {
-        padding: 16px 10px;
+        padding: 14px 10px;
     }
 
     .yh_sidebar_label,
