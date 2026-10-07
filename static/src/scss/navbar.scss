@@ -2,9 +2,13 @@
 // Navbar trắng (README §4 "Navbar")
 // ============================================================================
 
-// Viền dưới navbar (muk_web_theme cũ từng ẩn bằng `border-bottom: none !important`)
+// Navbar nổi: thẻ bo góc tách khỏi mép cửa sổ, cùng khoảng cách với sidebar (--yh-float-gap, sidebar.scss).
+// Viền đủ 4 cạnh nên padding dọc 9px để giữ ô 44px trong chiều cao 64px.
 .o_web_client .o_main_navbar {
-    border-bottom: 1px solid $yh-border !important;
+    margin: var(--yh-float-gap) var(--yh-float-gap) 0;
+    border: 1px solid $yh-border-soft !important;
+    border-radius: $yh-radius-card-lg;
+    box-shadow: $yh-shadow-card;
 }
 
 .o_main_navbar {
@@ -20,7 +24,7 @@
 
     align-items: center;
     gap: 4px;
-    padding: 10px 24px;
+    padding: 9px 20px 9px 12px;
     background: $yh-surface;
 
     // Nút mở danh sách ứng dụng
@@ -247,7 +251,7 @@
 // Màn hẹp: giảm padding để không tràn
 @include media-breakpoint-down(md) {
     .o_main_navbar {
-        padding: 10px 12px;
+        padding: 9px 10px;
 
         .o_menu_brand {
             margin-right: 8px;

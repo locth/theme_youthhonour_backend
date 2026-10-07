@@ -5,7 +5,7 @@
 
 .o_web_client {
     --yh-sidebar-width: 232px;
-    --yh-sidebar-gap: 16px; // khoảng cách sidebar nổi tới mép navbar/cửa sổ
+    --yh-float-gap: 16px; // khoảng cách navbar/sidebar nổi tới mép cửa sổ và tới nhau
 
     display: grid !important;
     grid-template-areas:
@@ -47,13 +47,14 @@
 @include media-breakpoint-only(md) {
     .o_web_client {
         --yh-sidebar-width: 76px;
-        --yh-sidebar-gap: 12px;
+        --yh-float-gap: 12px;
     }
 }
 
 @include media-breakpoint-down(md) {
     .o_web_client {
         --yh-sidebar-width: 0px;
+        --yh-float-gap: 8px;
     }
 }
 
@@ -66,7 +67,7 @@
 .yh_sidebar {
     width: var(--yh-sidebar-width);
     min-height: 0; // để overflow-y hoạt động trong ô grid 1fr
-    margin: var(--yh-sidebar-gap) 0 var(--yh-sidebar-gap) var(--yh-sidebar-gap);
+    margin: var(--yh-float-gap) 0 var(--yh-float-gap) var(--yh-float-gap);
     overflow-x: hidden;
     overflow-y: auto;
     background-color: $yh-surface;
