@@ -96,6 +96,15 @@ $-yh-cbttb-form: ".o_form_view:has(.o_field_widget[name='standouts_ok']):has(.o_
 }
 
 // --- One2many trong form ----------------------------------------------------------
+// Odoo "dán" list x2many ĐẦU TIÊN của tab vào mép tab (margin-top âm + --ListRenderer-margin-x).
+// List của theme là thẻ bo góc nên giữ nó nằm gọn trong tab như mọi list khác (vd. tab có nhãn
+// đứng trước list), tránh tab này sát khung còn tab kia có khoảng cách.
+.o_form_view .o_notebook > .tab-content > .tab-pane > :first-child:not(.o_group) .o_field_x2many.o_field_x2many_list .o_list_renderer {
+    --ListRenderer-margin-x: 0;
+    --ListRenderer-table-padding-x: #{$table-cell-padding-x-sm}; // như list không đứng đầu tab
+    margin-top: 0;
+}
+
 .o_form_view .o_field_x2many_list {
     .o_list_renderer {
         border: 1px solid $yh-border;

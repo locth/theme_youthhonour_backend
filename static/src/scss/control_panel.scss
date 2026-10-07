@@ -208,8 +208,12 @@
 
         .o_searchview_dropdown_toggler {
             flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 36px;
             height: 36px;
+            margin-left: 4px !important;
             padding: 0;
             border: 0 !important;
             border-radius: $yh-radius-ctl-sm !important;
