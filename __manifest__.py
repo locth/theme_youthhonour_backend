@@ -1,7 +1,7 @@
 {
     "name": "YouthHonour Backend Theme",
     "summary": "Giao diện backend YouthHonour (ĐHQG-HCM): xanh dương, cam, glow; sidebar ứng dụng",
-    "version": "18.0.1.2.1",
+    "version": "18.0.1.2.2",
     "category": "Themes/Backend",
     "author": "Đoàn TNCS Hồ Chí Minh ĐHQG-HCM",
     "license": "LGPL-3",
